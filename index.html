@@ -55,9 +55,22 @@ document.getElementById('status').textContent=`${hunt.length} owned, unwatched m
 renderHunt();
 }
 
-load().catch(e=>{
-document.getElementById('status').textContent='Library failed to load.';
-document.getElementById('huntList').innerHTML='<div class="empty">The movie data could not be loaded. Please refresh and try again.</div>';
-console.error(e);
+window.addEventListener('error',e=>{
+  const msg=e.message||'Unknown JavaScript error';
+  document.getElementById('status').textContent='ERROR: '+msg;
+  document.getElementById('huntList').innerHTML='<div class="empty">JavaScript error: '+esc(msg)+'</div>';
+  console.error(e);
 });
-</script></body></html>
+
+window.addEventListener('unhandledrejection',e=>{
+  const msg=e.reason?.message||String(e.reason||'Unknown promise error');
+  document.getElementById('status').textContent='ERROR: '+msg;
+  document.getElementById('huntList').innerHTML='<div class="empty">Loading error: '+esc(msg)+'</div>';
+  console.error(e);
+});
+
+load().catch(e=>{
+  document.getElementById('status').textContent='LOAD ERROR: '+(e.message||e);
+  document.getElementById('huntList').innerHTML='<div class="empty">Could not load the movie library: '+esc(e.message||e)+'</div>';
+  console.error(e);
+});
