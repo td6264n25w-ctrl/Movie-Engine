@@ -519,7 +519,7 @@ function search(q){
     box.innerHTML = '';
 
     document.getElementById('searchStatus').textContent =
-      'Search the full IMDb metadata library.';
+      'Search the movie library by title.';
 
     return;
   }
@@ -530,15 +530,9 @@ function search(q){
 
   for(const m of movies){
 
-    let t =
-      (m.title + ' ' +
-       m.year + ' ' +
-       m.genre + ' ' +
-       m.director + ' ' +
-       m.stars)
-      .toLowerCase();
+    const title = String(m.title || '').toLowerCase();
 
-    if(terms.every(x => t.includes(x)))
+    if(terms.every(x => title.includes(x)))
       hits.push(m);
 
     if(hits.length >= 60)
