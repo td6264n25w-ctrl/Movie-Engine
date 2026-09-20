@@ -17,7 +17,20 @@ document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{document.querySelec
 let timer;document.getElementById('q').addEventListener('input',e=>{clearTimeout(timer);timer=setTimeout(()=>search(e.target.value),80)});
 function search(q){q=q.trim().toLowerCase();let box=document.getElementById('searchList');if(!q){box.innerHTML='';document.getElementById('searchStatus').textContent='Search the full IMDb metadata library.';return}let terms=q.split(/\s+/);let hits=[];for(const m of movies){let t=(m.title+' '+m.year+' '+m.genre+' '+m.director+' '+m.stars).toLowerCase();if(terms.every(x=>t.includes(x)))hits.push(m);if(hits.length>=60)break}document.getElementById('searchStatus').textContent=`${hits.length}${hits.length===60?'+':''} results`;box.innerHTML=hits.map(m=>card(m,false)).join('');box.querySelectorAll('.card').forEach(el=>el.onclick=()=>show(el.dataset.id))}
 async function load(){
-const files=${JSON.stringify(Array.from({length:12},(_,i)=>`movies-${String(i).padStart(2,'0')}.js`))};
+const files=[
+"movies-00.js",
+"movies-01.js",
+"movies-02.js",
+"movies-03.js",
+"movies-04.js",
+"movies-05.js",
+"movies-06.js",
+"movies-07.js",
+"movies-08.js",
+"movies-09.js",
+"movies-10.js",
+"movies-11.js"
+];
 
 for(let i=0;i<files.length;i++){
 await new Promise((resolve,reject)=>{
