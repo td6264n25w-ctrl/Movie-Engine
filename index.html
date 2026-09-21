@@ -18,7 +18,8 @@ body{
   background:linear-gradient(180deg,#111118,#08080b 55%);
   min-height:100vh
 }
-button,input{font:inherit}
+button,input,select{font:inherit}
+button{cursor:pointer}
 .wrap{
   max-width:900px;
   margin:auto;
@@ -48,15 +49,17 @@ button,input{font:inherit}
   backdrop-filter:blur(14px);
   display:flex;
   gap:8px;
-  padding:8px 0 12px
+  padding:8px 0 12px;
+  overflow-x:auto
 }
 .tab{
   flex:1;
+  min-width:90px;
   border:1px solid #2a2a34;
   background:#17171f;
   color:#ddd;
   border-radius:13px;
-  padding:12px;
+  padding:12px 10px;
   font-weight:700
 }
 .tab.active{
@@ -93,6 +96,28 @@ button,input{font:inherit}
   color:#111;
   background:#fff
 }
+.selectbox{
+  width:100%;
+  border:1px solid #30303a;
+  background:#15151d;
+  color:#fff;
+  border-radius:14px;
+  padding:14px 16px;
+  outline:none;
+  margin:10px 0
+}
+.genreIntro{
+  margin:12px 2px 14px
+}
+.genreTitle{
+  font-size:22px;
+  font-weight:800
+}
+.genreSub{
+  color:#9999a5;
+  font-size:13px;
+  margin-top:4px
+}
 .card{
   border:1px solid #292933;
   background:rgba(23,23,31,.92);
@@ -121,12 +146,20 @@ button,input{font:inherit}
   font-weight:800;
   white-space:nowrap
 }
-.p5{
+.probrow{
+  display:flex;
+  justify-content:flex-end;
+  gap:9px;
+  margin-top:3px;
+  flex-wrap:wrap
+}
+.p5,
+.p45{
   font-size:12px;
   color:#bdbdc8;
-  margin-top:2px;
-  text-align:right
+  white-space:nowrap
 }
+.p45{color:#d8d8e0}
 .badge{
   display:inline-block;
   font-size:11px;
@@ -135,6 +168,19 @@ button,input{font:inherit}
   border-radius:7px;
   padding:3px 6px;
   margin:7px 5px 0 0
+}
+.profileMini{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin-top:10px
+}
+.miniScore{
+  font-size:10px;
+  color:#9999a5;
+  border:1px solid #30303a;
+  border-radius:999px;
+  padding:4px 7px
 }
 .empty{
   padding:35px 10px;
@@ -179,29 +225,109 @@ button,input{font:inherit}
 }
 .stat b{
   display:block;
-  font-size:25px
+  font-size:25px;
+  margin-top:3px
+}
+.statSmall{
+  font-size:13px;
+  color:#aaa;
+  margin-top:4px
 }
 .label{
   font-size:12px;
   color:#999
 }
-.desc{
+.sectionTitle{
+  font-size:18px;
+  font-weight:800;
+  margin:28px 0 10px
+}
+.profileGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px
+}
+.profileItem{
+  background:#17171f;
+  border:1px solid #2b2b35;
+  border-radius:14px;
+  padding:12px
+}
+.profileName{
+  font-size:12px;
+  color:#9999a5;
+  margin-bottom:5px
+}
+.profileScore{
+  font-size:22px;
+  font-weight:800
+}
+.profileBar{
+  height:4px;
+  border-radius:99px;
+  background:#2b2b35;
+  margin-top:8px;
+  overflow:hidden
+}
+.profileFill{
+  height:100%;
+  background:#f5f5f7;
+  border-radius:99px
+}
+.typeBox{
+  border:1px solid #2b2b35;
+  background:#17171f;
+  border-radius:16px;
+  padding:14px;
   color:#d0d0d8;
-  line-height:1.55
+  line-height:1.5
+}
+.typeTags{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-top:10px
+}
+.typeTag{
+  font-size:11px;
+  background:#22222b;
+  color:#c7c7cf;
+  border-radius:999px;
+  padding:6px 9px
 }
 .note{
   font-size:12px;
   color:#777;
-  margin-top:18px
+  margin-top:18px;
+  line-height:1.5
 }
 .spinner{
   padding:18px;
   text-align:center;
   color:#999
 }
+.huntRank{
+  display:inline-flex;
+  width:27px;
+  height:27px;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#22222b;
+  color:#aaa;
+  font-size:12px;
+  font-weight:800;
+  margin-right:8px
+}
+.genreResultHeader{
+  display:flex;
+  align-items:center;
+  margin-bottom:8px
+}
 @media(min-width:700px){
   .card{padding:18px}
   .big{font-size:48px}
+  .profileGrid{grid-template-columns:1fr 1fr 1fr}
 }
 </style>
 </head>
@@ -217,19 +343,60 @@ button,input{font:inherit}
   </div>
 
   <div class="tabs">
-    <button class="tab active" data-tab="hunt">5★ Hunt</button>
-    <button class="tab" data-tab="search">Search</button>
+
+    <button class="tab active" data-tab="hunt">
+      5★ Hunt
+    </button>
+
+    <button class="tab" data-tab="genres">
+      Genre Hunt
+    </button>
+
+    <button class="tab" data-tab="search">
+      Search
+    </button>
+
   </div>
 
   <section id="hunt" class="panel active">
 
     <div class="toolbar">
-      <button class="chip active" data-sort="p5">5★ probability</button>
-      <button class="chip" data-sort="pred">Predicted rating</button>
-      <button class="chip" data-sort="high">High upside</button>
+
+      <button class="chip active" data-sort="p5">
+        5★ probability
+      </button>
+
+      <button class="chip" data-sort="p45">
+        4½★ probability
+      </button>
+
+      <button class="chip" data-sort="pred">
+        Predicted rating
+      </button>
+
+      <button class="chip" data-sort="high">
+        High upside
+      </button>
+
     </div>
 
-    <div id="huntList" class="spinner">Loading…</div>
+    <div id="huntList" class="spinner">
+      Loading…
+    </div>
+
+  </section>
+
+  <section id="genres" class="panel">
+
+    <select id="genreSelect" class="selectbox">
+      <option value="">Choose a genre…</option>
+    </select>
+
+    <div id="genreIntro" class="genreIntro"></div>
+
+    <div id="genreList" class="spinner">
+      Choose a genre to begin.
+    </div>
 
   </section>
 
@@ -238,7 +405,7 @@ button,input{font:inherit}
     <input
       id="q"
       class="searchbox"
-      placeholder="Search movies…"
+      placeholder="Search movies by title…"
       autocomplete="off"
     >
 
@@ -258,7 +425,9 @@ button,input{font:inherit}
 
   <div class="detailbox">
 
-    <button class="close" id="close">← Back</button>
+    <button class="close" id="close">
+      ← Back
+    </button>
 
     <div id="detailBody"></div>
 
@@ -278,6 +447,7 @@ let movies = [];
 let movieByKey = new Map();
 let hunt = [];
 let sortMode = 'p5';
+let selectedGenre = '';
 
 const esc = s =>
   String(s ?? '').replace(
@@ -291,54 +461,360 @@ const esc = s =>
   );
 
 function key(t,y){
+
   return String(t || '')
     .toLowerCase()
     .normalize('NFKD')
     .replace(/[^a-z0-9]+/g,' ')
     .trim() + '|' + y;
+
 }
 
 function stars(s){
+
   return String(s || '')
     .split(/\n|,/)
     .map(x => x.trim())
     .filter(Boolean)
     .slice(0,4)
     .join(', ');
+
 }
 
-function card(m,owned){
+function probability(v){
+
+  if(v === null || v === undefined || v === '')
+    return null;
+
+  let n = Number(
+    String(v)
+      .replace('%','')
+      .trim()
+  );
+
+  if(!Number.isFinite(n))
+    return null;
+
+  if(n > 1)
+    n = n / 100;
+
+  return Math.max(0,Math.min(1,n));
+
+}
+
+function pct(v){
+
+  const p = probability(v);
+
+  if(p === null)
+    return '—';
+
+  return (p * 100).toFixed(1) + '%';
+
+}
+
+function p45(m){
+
+  const direct =
+    m.p45 ??
+    m.p4_5 ??
+    m.p45plus ??
+    m.p45prob;
+
+  const d = probability(direct);
+
+  if(d !== null)
+    return d;
+
+  const pred = Number(m.pred);
+
+  if(!Number.isFinite(pred))
+    return null;
+
+  const p5 = probability(m.p5);
+
+  const normalized =
+    Math.max(
+      0,
+      Math.min(
+        1,
+        (pred - 3.5) / 1.5
+      )
+    );
+
+  if(p5 !== null){
+
+    return Math.max(
+      p5,
+      Math.min(
+        0.98,
+        normalized * 0.82 + p5 * 0.18
+      )
+    );
+
+  }
+
+  return normalized * 0.82;
+
+}
+
+const PROFILE_FIELDS = [
+
+  ['character','Character'],
+  ['performance','Performance'],
+  ['directing','Directing'],
+  ['juice','Juice'],
+  ['moralDilemma','Moral Dilemma'],
+  ['dialogue','Dialogue'],
+  ['originality','Originality'],
+  ['creativeStorytelling','Creative Storytelling'],
+  ['immersion','Immersion'],
+  ['emotionalConsequence','Emotional Consequence'],
+  ['ideas','Ideas']
+
+];
+
+function profileValue(m,field){
+
+  const aliases = {
+
+    character:[
+      'character',
+      'characterScore'
+    ],
+
+    performance:[
+      'performance',
+      'performanceScore'
+    ],
+
+    directing:[
+      'directing',
+      'direction',
+      'directingScore',
+      'directionScore'
+    ],
+
+    juice:[
+      'juice',
+      'juiceScore'
+    ],
+
+    moralDilemma:[
+      'moralDilemma',
+      'moral_dilemma',
+      'moralDilemmaScore'
+    ],
+
+    dialogue:[
+      'dialogue',
+      'dialogueScore'
+    ],
+
+    originality:[
+      'originality',
+      'originalityScore'
+    ],
+
+    creativeStorytelling:[
+      'creativeStorytelling',
+      'creative_storytelling',
+      'creativeStorytellingScore'
+    ],
+
+    immersion:[
+      'immersion',
+      'immersionScore'
+    ],
+
+    emotionalConsequence:[
+      'emotionalConsequence',
+      'emotional_consequence',
+      'emotionalConsequenceScore'
+    ],
+
+    ideas:[
+      'ideas',
+      'ideasScore'
+    ]
+
+  };
+
+  const names = aliases[field] || [field];
+
+  for(const n of names){
+
+    if(
+      m[n] !== undefined &&
+      m[n] !== null &&
+      m[n] !== ''
+    ){
+
+      const v = Number(m[n]);
+
+      if(Number.isFinite(v))
+        return Math.max(0,Math.min(10,v));
+
+    }
+
+  }
+
+  if(
+    m.profile &&
+    m.profile[field] !== undefined
+  ){
+
+    const v = Number(m.profile[field]);
+
+    if(Number.isFinite(v))
+      return Math.max(0,Math.min(10,v));
+
+  }
+
+  return null;
+
+}
+
+function buildTypeTags(m){
+
+  const tags = [];
+
+  const p = field =>
+    profileValue(m,field);
+
+  if((p('character') ?? 0) >= 8.5)
+    tags.push('Character-rich');
+
+  if((p('performance') ?? 0) >= 8.5)
+    tags.push('Performance-driven');
+
+  if((p('directing') ?? 0) >= 8.5)
+    tags.push('Director-forward');
+
+  if((p('juice') ?? 0) >= 8.5)
+    tags.push('High-energy');
+
+  if((p('moralDilemma') ?? 0) >= 8.5)
+    tags.push('Morally complex');
+
+  if((p('dialogue') ?? 0) >= 8.5)
+    tags.push('Dialogue-heavy');
+
+  if((p('originality') ?? 0) >= 8.5)
+    tags.push('Distinctive');
+
+  if((p('creativeStorytelling') ?? 0) >= 8.5)
+    tags.push('Formally inventive');
+
+  if((p('immersion') ?? 0) >= 8.5)
+    tags.push('Highly immersive');
+
+  if((p('emotionalConsequence') ?? 0) >= 8.5)
+    tags.push('Emotionally consequential');
+
+  if((p('ideas') ?? 0) >= 8.5)
+    tags.push('Idea-rich');
+
+  return tags.slice(0,6);
+
+}
+
+function profileDescription(m){
+
+  const tags = buildTypeTags(m);
+
+  if(!tags.length)
+    return 'Spoiler-free film profile information is available when the Film DNA scores are present in the movie data.';
+
+  return tags.join(' · ');
+
+}
+
+function card(m,owned,rank){
+
+  const p5 = probability(m.p5);
+  const p45v = p45(m);
 
   return `
+
     <div class="card" data-id="${esc(m.id)}">
 
       <div class="row">
 
         <div>
-          <div class="movie">${esc(m.title)}</div>
+
+          ${
+            rank
+            ? `
+              <div class="genreResultHeader">
+                <span class="huntRank">${rank}</span>
+                <div class="movie">
+                  ${esc(m.title)}
+                </div>
+              </div>
+            `
+            : `
+              <div class="movie">
+                ${esc(m.title)}
+              </div>
+            `
+          }
+
           <div class="meta">
             ${esc(m.year)} · ${esc(m.genre || '')}
           </div>
+
         </div>
 
         <div>
+
           <div class="pred">
             ${Number(m.pred || 0).toFixed(1)}★
           </div>
 
-          <div class="p5">
-            ${(Number(m.p5 || 0) * 100).toFixed(1)}% 5★
+          <div class="probrow">
+
+            <div class="p5">
+              ${pct(p5)} 5★
+            </div>
+
+            <div class="p45">
+              ${pct(p45v)} 4½★+
+            </div>
+
           </div>
+
         </div>
 
       </div>
 
-      ${owned
+      ${
+        owned
         ? '<span class="badge">OWNED · UNWATCHED</span>'
-        : ''}
+        : ''
+      }
+
+      ${
+        buildTypeTags(m).length
+        ? `
+          <div class="profileMini">
+            ${
+              buildTypeTags(m)
+                .slice(0,4)
+                .map(x =>
+                  `<span class="miniScore">${esc(x)}</span>`
+                )
+                .join('')
+            }
+          </div>
+        `
+        : ''
+      }
 
     </div>
+
   `;
+
 }
 
 function renderHunt(){
@@ -346,17 +822,46 @@ function renderHunt(){
   let a = [...hunt];
 
   if(sortMode === 'p5'){
-    a.sort((x,y) => y.p5 - x.p5);
-  }
-  else if(sortMode === 'pred'){
-    a.sort((x,y) => y.pred - x.pred);
-  }
-  else{
+
     a.sort(
       (x,y) =>
-        (y.p5 * (5-y.pred)) -
-        (x.p5 * (5-x.pred))
+        (probability(y.p5) ?? 0) -
+        (probability(x.p5) ?? 0)
     );
+
+  }
+  else if(sortMode === 'p45'){
+
+    a.sort(
+      (x,y) =>
+        (p45(y) ?? 0) -
+        (p45(x) ?? 0)
+    );
+
+  }
+  else if(sortMode === 'pred'){
+
+    a.sort(
+      (x,y) =>
+        Number(y.pred || 0) -
+        Number(x.pred || 0)
+    );
+
+  }
+  else{
+
+    a.sort(
+      (x,y) =>
+        (
+          (probability(y.p5) ?? 0) *
+          Math.max(0,5-Number(y.pred || 0))
+        ) -
+        (
+          (probability(x.p5) ?? 0) *
+          Math.max(0,5-Number(x.pred || 0))
+        )
+    );
+
   }
 
   document.getElementById('huntList').innerHTML =
@@ -365,8 +870,151 @@ function renderHunt(){
   document
     .querySelectorAll('#huntList .card')
     .forEach(el => {
-      el.onclick = () => show(el.dataset.id);
+
+      el.onclick = () =>
+        show(el.dataset.id);
+
     });
+
+}
+
+function normalizeGenres(m){
+
+  const raw =
+    m.genre ??
+    m.genres ??
+    '';
+
+  if(Array.isArray(raw))
+    return raw
+      .map(x => String(x).trim())
+      .filter(Boolean);
+
+  return String(raw)
+    .split(/[|,;/]/)
+    .map(x => x.trim())
+    .filter(Boolean);
+
+}
+
+function populateGenres(){
+
+  const set = new Set();
+
+  hunt.forEach(m => {
+
+    normalizeGenres(m)
+      .forEach(g => set.add(g));
+
+  });
+
+  const genres = [...set]
+    .sort((a,b) =>
+      a.localeCompare(b)
+    );
+
+  const select =
+    document.getElementById('genreSelect');
+
+  select.innerHTML =
+    '<option value="">Choose a genre…</option>' +
+
+    genres
+      .map(g =>
+        `<option value="${esc(g)}">${esc(g)}</option>`
+      )
+      .join('');
+
+}
+
+document
+  .getElementById('genreSelect')
+  .addEventListener('change',e => {
+
+    selectedGenre = e.target.value;
+
+    renderGenreHunt();
+
+  });
+
+function renderGenreHunt(){
+
+  const list =
+    document.getElementById('genreList');
+
+  const intro =
+    document.getElementById('genreIntro');
+
+  if(!selectedGenre){
+
+    intro.innerHTML = '';
+
+    list.innerHTML =
+      '<div class="empty">Choose a genre to see the five movies with the highest predicted 5★ probability.</div>';
+
+    return;
+
+  }
+
+  const genreLower =
+    selectedGenre.toLowerCase();
+
+  let candidates =
+    hunt.filter(m =>
+
+      normalizeGenres(m)
+        .some(g =>
+          g.toLowerCase() === genreLower
+        )
+
+    );
+
+  candidates.sort(
+    (a,b) =>
+      (probability(b.p5) ?? 0) -
+      (probability(a.p5) ?? 0)
+  );
+
+  candidates =
+    candidates.slice(0,5);
+
+  intro.innerHTML = `
+
+    <div class="genreTitle">
+      ${esc(selectedGenre)}
+    </div>
+
+    <div class="genreSub">
+      Five owned, unwatched films with the highest predicted 5★ probability.
+    </div>
+
+  `;
+
+  if(!candidates.length){
+
+    list.innerHTML =
+      '<div class="empty">No matching films found.</div>';
+
+    return;
+
+  }
+
+  list.innerHTML =
+    candidates
+      .map((m,i) =>
+        card(m,true,i+1)
+      )
+      .join('');
+
+  list
+    .querySelectorAll('.card')
+    .forEach(el => {
+
+      el.onclick = () =>
+        show(el.dataset.id);
+
+    });
+
 }
 
 function show(id){
@@ -378,6 +1026,55 @@ function show(id){
   let o = ownedByKey.get(
     key(m.title,m.year)
   );
+
+  const p5 = probability(m.p5);
+  const p45v = p45(m);
+
+  const profileHTML =
+    PROFILE_FIELDS
+      .map(([field,label]) => {
+
+        const value =
+          profileValue(m,field);
+
+        return `
+
+          <div class="profileItem">
+
+            <div class="profileName">
+              ${esc(label)}
+            </div>
+
+            <div class="profileScore">
+              ${
+                value === null
+                ? '—'
+                : value.toFixed(1)
+              }
+            </div>
+
+            ${
+              value === null
+              ? ''
+              : `
+                <div class="profileBar">
+                  <div
+                    class="profileFill"
+                    style="width:${value * 10}%"
+                  ></div>
+                </div>
+              `
+            }
+
+          </div>
+
+        `;
+
+      })
+      .join('');
+
+  const tags =
+    buildTypeTags(m);
 
   document.getElementById('detailBody').innerHTML = `
 
@@ -392,15 +1089,101 @@ function show(id){
     <div class="stats">
 
       <div class="stat">
-        <span class="label">PREDICTED MATT RATING</span>
-        <b>${Number(m.pred || 0).toFixed(1)}★</b>
+
+        <span class="label">
+          PREDICTED MATT RATING
+        </span>
+
+        <b>
+          ${Number(m.pred || 0).toFixed(1)}★
+        </b>
+
       </div>
 
       <div class="stat">
-        <span class="label">5★ PROBABILITY</span>
-        <b>${(Number(m.p5 || 0) * 100).toFixed(1)}%</b>
+
+        <span class="label">
+          5★ PROBABILITY
+        </span>
+
+        <b>
+          ${pct(p5)}
+        </b>
+
       </div>
 
+      <div class="stat">
+
+        <span class="label">
+          4½★+ PROBABILITY
+        </span>
+
+        <b>
+          ${pct(p45v)}
+        </b>
+
+        <div class="statSmall">
+          Probability of a 4½★ or better reaction.
+        </div>
+
+      </div>
+
+      <div class="stat">
+
+        <span class="label">
+          IMDb
+        </span>
+
+        <b>
+          ${
+            Number(m.imdb || 0)
+              ? Number(m.imdb).toFixed(1)
+              : '—'
+          }
+        </b>
+
+      </div>
+
+    </div>
+
+    <div class="sectionTitle">
+      Film DNA
+    </div>
+
+    <div class="profileGrid">
+      ${profileHTML}
+    </div>
+
+    <div class="sectionTitle">
+      What kind of film is this?
+    </div>
+
+    <div class="typeBox">
+
+      ${esc(profileDescription(m))}
+
+      ${
+        tags.length
+        ? `
+          <div class="typeTags">
+
+            ${
+              tags
+                .map(x =>
+                  `<span class="typeTag">${esc(x)}</span>`
+                )
+                .join('')
+            }
+
+          </div>
+        `
+        : ''
+      }
+
+    </div>
+
+    <div class="sectionTitle">
+      Film Information
     </div>
 
     <p>
@@ -418,15 +1201,6 @@ function show(id){
       ${esc(m.runtime || 'Unknown')}
     </p>
 
-    <p>
-      <b>IMDb:</b>
-      ${Number(m.imdb || 0).toFixed(1)}
-    </p>
-
-    <p class="desc">
-      ${esc(m.description || 'No synopsis available.')}
-    </p>
-
     ${
       o
       ? '<span class="badge">OWNED · UNWATCHED</span>'
@@ -434,14 +1208,22 @@ function show(id){
     }
 
     <div class="note">
-      Predictions are from the current Matt’s Movie Taste Model.
-      Spoiler-free metadata only.
+
+      Film DNA describes characteristics of the film
+      without revealing narrative events.
+
+      No plot developments, endings, twists,
+      deaths, betrayals, or other narrative spoilers
+      are used in this profile.
+
     </div>
 
   `;
 
   document.getElementById('detail').hidden = false;
+
   document.body.style.overflow = 'hidden';
+
 }
 
 document.getElementById('close').onclick = () => {
@@ -458,11 +1240,15 @@ document.querySelectorAll('.tab').forEach(b => {
 
     document
       .querySelectorAll('.tab')
-      .forEach(x => x.classList.remove('active'));
+      .forEach(x =>
+        x.classList.remove('active')
+      );
 
     document
       .querySelectorAll('.panel')
-      .forEach(x => x.classList.remove('active'));
+      .forEach(x =>
+        x.classList.remove('active')
+      );
 
     b.classList.add('active');
 
@@ -480,7 +1266,9 @@ document.querySelectorAll('.chip').forEach(b => {
 
     document
       .querySelectorAll('.chip')
-      .forEach(x => x.classList.remove('active'));
+      .forEach(x =>
+        x.classList.remove('active')
+      );
 
     b.classList.add('active');
 
@@ -494,76 +1282,89 @@ document.querySelectorAll('.chip').forEach(b => {
 
 let timer;
 
-document.getElementById('q').addEventListener(
-  'input',
-  e => {
+document.getElementById('q')
+  .addEventListener(
+    'input',
+    e => {
 
-    clearTimeout(timer);
+      clearTimeout(timer);
 
-    timer = setTimeout(
-      () => search(e.target.value),
-      80
-    );
+      timer = setTimeout(
+        () => search(e.target.value),
+        80
+      );
 
-  }
-);
+    }
+  );
 
 function search(q){
 
   q = q.trim().toLowerCase();
 
-  let box = document.getElementById('searchList');
+  let box =
+    document.getElementById('searchList');
 
   if(!q){
 
     box.innerHTML = '';
 
-    document.getElementById('searchStatus').textContent =
-      'Search the movie library by title.';
+    document
+      .getElementById('searchStatus')
+      .textContent =
+        'Search the movie library by title.';
 
     return;
+
   }
 
-  let terms = q.split(/\s+/);
+  let terms =
+    q.split(/\s+/);
 
   let hits = [];
 
   for(const m of movies){
 
-    const title = String(m.title || '').toLowerCase();
+    const title =
+      String(m.title || '')
+        .toLowerCase();
 
-    if(terms.every(x => title.includes(x)))
+    if(
+      terms.every(
+        x => title.includes(x)
+      )
+    )
       hits.push(m);
 
     if(hits.length >= 60)
       break;
+
   }
 
-  document.getElementById('searchStatus').textContent =
-    `${hits.length}${hits.length === 60 ? '+' : ''} results`;
+  document
+    .getElementById('searchStatus')
+    .textContent =
+      `${hits.length}${hits.length === 60 ? '+' : ''} results`;
 
   box.innerHTML =
-    hits.map(m => card(m,false)).join('');
+    hits
+      .map(m => card(m,false))
+      .join('');
 
   box
     .querySelectorAll('.card')
     .forEach(el => {
-      el.onclick = () => show(el.dataset.id);
+
+      el.onclick = () =>
+        show(el.dataset.id);
+
     });
+
 }
-
-
-/*
-  MOVIE LIBRARY LOADER
-
-  We deliberately load each chunk one at a time.
-  The status text tells us exactly which file is
-  currently being loaded.
-*/
 
 async function load(){
 
   const files = [
+
     "movies-00.js",
     "movies-01.js",
     "movies-02.js",
@@ -576,128 +1377,170 @@ async function load(){
     "movies-09.js",
     "movies-10.js",
     "movies-11.js"
+
   ];
 
-  document.getElementById('status').textContent =
-    'Starting movie library… 0%';
+  document
+    .getElementById('status')
+    .textContent =
+      'Starting movie library… 0%';
 
-  for(let i = 0; i < files.length; i++){
+  for(
+    let i = 0;
+    i < files.length;
+    i++
+  ){
 
     const name = files[i];
 
-    document.getElementById('status').textContent =
-      `Loading ${name}… ${Math.round(i / files.length * 100)}%`;
+    document
+      .getElementById('status')
+      .textContent =
+        `Loading ${name}… ${Math.round(
+          i / files.length * 100
+        )}%`;
 
-    await new Promise((resolve,reject) => {
+    await new Promise(
+      (resolve,reject) => {
 
-      const s = document.createElement('script');
+        const s =
+          document.createElement('script');
 
-      s.src = name;
+        s.src = name;
 
-      s.onload = () => {
+        s.onload = () => {
 
-        document.getElementById('status').textContent =
-          `Loaded ${name}… ${Math.round((i + 1) / files.length * 100)}%`;
+          document
+            .getElementById('status')
+            .textContent =
+              `Loaded ${name}… ${Math.round(
+                (i + 1) / files.length * 100
+              )}%`;
 
-        resolve();
+          resolve();
 
-      };
+        };
 
-      s.onerror = () => {
+        s.onerror = () => {
 
-        reject(
-          new Error(`Could not load ${name}`)
-        );
+          reject(
+            new Error(
+              `Could not load ${name}`
+            )
+          );
 
-      };
+        };
 
-      document.head.appendChild(s);
+        document.head.appendChild(s);
 
-    });
+      }
+    );
 
   }
 
-  movies = (window.MOVIE_CHUNKS || []).flat();
+  movies =
+    (window.MOVIE_CHUNKS || []).flat();
 
-  movieByKey = new Map(
-    movies.map(m => [m.id,m])
-  );
-
-  hunt = movies.filter(m => {
-
-    const o = ownedByKey.get(
-      key(m.title,m.year)
+  movieByKey =
+    new Map(
+      movies.map(m => [m.id,m])
     );
 
-    return o &&
-           Number(o.rated) === 0 &&
-           m.pred != null;
+  hunt =
+    movies.filter(m => {
 
-  });
+      const o =
+        ownedByKey.get(
+          key(m.title,m.year)
+        );
 
-  document.getElementById('status').textContent =
-    `${hunt.length} owned, unwatched movies with predictions · ` +
-    `${movies.length.toLocaleString()} movies searchable`;
+      return (
+        o &&
+        Number(o.rated) === 0 &&
+        m.pred != null
+      );
+
+    });
+
+  populateGenres();
+
+  document
+    .getElementById('status')
+    .textContent =
+      `${hunt.length} owned, unwatched movies with predictions · ` +
+      `${movies.length.toLocaleString()} movies searchable`;
 
   renderHunt();
 
 }
 
+window.addEventListener(
+  'error',
+  e => {
 
-/*
-  GLOBAL ERROR REPORTING
-*/
+    const msg =
+      e.message ||
+      'Unknown JavaScript error';
 
-window.addEventListener('error', e => {
+    document
+      .getElementById('status')
+      .textContent =
+        'ERROR: ' + msg;
 
-  const msg =
-    e.message ||
-    'Unknown JavaScript error';
+    document
+      .getElementById('huntList')
+      .innerHTML =
+        '<div class="empty">JavaScript error: ' +
+        esc(msg) +
+        '</div>';
 
-  document.getElementById('status').textContent =
-    'ERROR: ' + msg;
+    console.error(e);
 
-  document.getElementById('huntList').innerHTML =
-    '<div class="empty">JavaScript error: ' +
-    esc(msg) +
-    '</div>';
+  }
+);
 
-  console.error(e);
+window.addEventListener(
+  'unhandledrejection',
+  e => {
 
-});
+    const msg =
+      e.reason?.message ||
+      String(
+        e.reason ||
+        'Unknown promise error'
+      );
 
-window.addEventListener('unhandledrejection', e => {
+    document
+      .getElementById('status')
+      .textContent =
+        'ERROR: ' + msg;
 
-  const msg =
-    e.reason?.message ||
-    String(e.reason || 'Unknown promise error');
+    document
+      .getElementById('huntList')
+      .innerHTML =
+        '<div class="empty">Loading error: ' +
+        esc(msg) +
+        '</div>';
 
-  document.getElementById('status').textContent =
-    'ERROR: ' + msg;
+    console.error(e);
 
-  document.getElementById('huntList').innerHTML =
-    '<div class="empty">Loading error: ' +
-    esc(msg) +
-    '</div>';
-
-  console.error(e);
-
-});
-
-
-/*
-  START
-*/
+  }
+);
 
 load().catch(e => {
 
-  document.getElementById('status').textContent =
-    'LOAD ERROR: ' + (e.message || e);
+  document
+    .getElementById('status')
+    .textContent =
+      'LOAD ERROR: ' +
+      (e.message || e);
 
-  document.getElementById('huntList').innerHTML =
-    '<div class="empty">' +
-    esc(e.message || e) +
-    '</div>';
+  document
+    .getElementById('huntList')
+    .innerHTML =
+      '<div class="empty">' +
+      esc(e.message || e) +
+      '</div>';
 
   console.error(e);
 
