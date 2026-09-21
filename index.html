@@ -12,35 +12,46 @@
   background:#0b0b0f;
   color:#f5f5f7
 }
+
 *{box-sizing:border-box}
+
 body{
   margin:0;
   background:linear-gradient(180deg,#111118,#08080b 55%);
   min-height:100vh
 }
+
 button,input,select{font:inherit}
 button{cursor:pointer}
+
 .wrap{
   max-width:900px;
   margin:auto;
   padding:18px 14px 90px
 }
-.hero{padding:12px 4px 18px}
+
+.hero{
+  padding:12px 4px 18px
+}
+
 .eyebrow{
   font-size:12px;
   letter-spacing:.12em;
   text-transform:uppercase;
   color:#a7a7b0
 }
+
 .title{
   font-size:32px;
   font-weight:800;
   margin:5px 0
 }
+
 .sub{
   color:#a7a7b0;
   font-size:14px
 }
+
 .tabs{
   position:sticky;
   top:0;
@@ -52,6 +63,7 @@ button{cursor:pointer}
   padding:8px 0 12px;
   overflow-x:auto
 }
+
 .tab{
   flex:1;
   min-width:90px;
@@ -62,12 +74,15 @@ button{cursor:pointer}
   padding:12px 10px;
   font-weight:700
 }
+
 .tab.active{
   background:#f5f5f7;
   color:#111
 }
+
 .panel{display:none}
 .panel.active{display:block}
+
 .searchbox{
   width:100%;
   background:#15151d;
@@ -77,13 +92,23 @@ button{cursor:pointer}
   padding:14px 16px;
   outline:none
 }
-.searchbox:focus{border-color:#888}
+
+.searchbox:focus{
+  border-color:#888
+}
+
 .toolbar{
   display:flex;
   gap:8px;
-  margin:10px 0;
-  overflow:auto
+  margin:10px 0 14px;
+  overflow:auto;
+  scrollbar-width:none
 }
+
+.toolbar::-webkit-scrollbar{
+  display:none
+}
+
 .chip{
   white-space:nowrap;
   border:1px solid #30303a;
@@ -92,10 +117,12 @@ button{cursor:pointer}
   border-radius:999px;
   padding:8px 11px
 }
+
 .chip.active{
   color:#111;
   background:#fff
 }
+
 .selectbox{
   width:100%;
   border:1px solid #30303a;
@@ -106,87 +133,184 @@ button{cursor:pointer}
   outline:none;
   margin:10px 0
 }
+
 .genreIntro{
-  margin:12px 2px 14px
+  margin:18px 2px 14px
 }
+
 .genreTitle{
   font-size:22px;
   font-weight:800
 }
+
 .genreSub{
   color:#9999a5;
   font-size:13px;
   margin-top:4px
 }
+
+
+/* =========================
+   MOVIE CARDS
+   ========================= */
+
 .card{
   border:1px solid #292933;
   background:rgba(23,23,31,.92);
   border-radius:18px;
-  padding:15px;
+  padding:16px;
   margin:10px 0;
-  cursor:pointer
+  cursor:pointer;
+  transition:transform .12s ease,border-color .12s ease
 }
-.card:active{transform:scale(.995)}
-.row{
+
+.card:hover{
+  border-color:#3c3c48
+}
+
+.card:active{
+  transform:scale(.995)
+}
+
+.cardTop{
   display:flex;
+  align-items:flex-start;
   justify-content:space-between;
-  gap:12px
+  gap:16px
 }
+
+.cardLeft{
+  min-width:0;
+  flex:1
+}
+
 .movie{
   font-weight:750;
-  font-size:17px
+  font-size:17px;
+  line-height:1.25
 }
+
 .meta{
   font-size:13px;
   color:#9999a5;
-  margin-top:4px
+  margin-top:5px;
+  line-height:1.35
 }
+
+.ratingBlock{
+  flex:0 0 auto;
+  text-align:right
+}
+
 .pred{
-  font-size:22px;
-  font-weight:800;
-  white-space:nowrap
+  font-size:25px;
+  font-weight:850;
+  line-height:1
 }
-.probrow{
-  display:flex;
-  justify-content:flex-end;
-  gap:9px;
-  margin-top:3px;
-  flex-wrap:wrap
+
+.predLabel{
+  color:#888894;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  margin-top:5px
 }
-.p5,
-.p45{
-  font-size:12px;
+
+.probabilities{
+  margin-top:15px;
+  display:grid;
+  gap:8px
+}
+
+.probability{
+  display:grid;
+  grid-template-columns:46px 1fr 43px;
+  align-items:center;
+  gap:8px
+}
+
+.probLabel{
+  font-size:11px;
+  color:#aaaab4;
+  font-weight:700
+}
+
+.probTrack{
+  height:5px;
+  background:#292933;
+  border-radius:99px;
+  overflow:hidden
+}
+
+.probFill{
+  height:100%;
+  background:#f0f0f3;
+  border-radius:99px
+}
+
+.probFill.secondary{
+  background:#888892
+}
+
+.probValue{
+  text-align:right;
+  font-size:11px;
   color:#bdbdc8;
-  white-space:nowrap
+  font-variant-numeric:tabular-nums
 }
-.p45{color:#d8d8e0}
+
 .badge{
   display:inline-block;
-  font-size:11px;
+  font-size:10px;
   color:#aaa;
   background:#20202a;
   border-radius:7px;
-  padding:3px 6px;
-  margin:7px 5px 0 0
+  padding:4px 7px;
+  margin-top:12px
 }
-.profileMini{
+
+.rankRow{
   display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-  margin-top:10px
+  align-items:center;
+  gap:9px
 }
-.miniScore{
-  font-size:10px;
-  color:#9999a5;
-  border:1px solid #30303a;
-  border-radius:999px;
-  padding:4px 7px
+
+.huntRank{
+  display:inline-flex;
+  flex:0 0 auto;
+  width:25px;
+  height:25px;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#22222b;
+  color:#aaa;
+  font-size:11px;
+  font-weight:800
 }
+
+
+/* =========================
+   EMPTY / LOADING
+   ========================= */
+
 .empty{
   padding:35px 10px;
   text-align:center;
   color:#92929c
 }
+
+.spinner{
+  padding:18px;
+  text-align:center;
+  color:#999
+}
+
+
+/* =========================
+   DETAIL
+   ========================= */
+
 .detail{
   position:fixed;
   inset:0;
@@ -195,10 +319,12 @@ button{cursor:pointer}
   overflow:auto;
   padding:18px 16px 60px
 }
+
 .detailbox{
   max-width:760px;
   margin:auto
 }
+
 .close{
   border:0;
   background:#22222b;
@@ -206,62 +332,77 @@ button{cursor:pointer}
   border-radius:12px;
   padding:10px 14px
 }
+
 .big{
   font-size:38px;
   font-weight:850;
-  margin:24px 0 4px
+  margin:24px 0 4px;
+  line-height:1.08
 }
+
 .stats{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
-  margin:18px 0
+  margin:20px 0
 }
+
 .stat{
   background:#17171f;
   border:1px solid #2b2b35;
   border-radius:16px;
   padding:14px
 }
+
 .stat b{
   display:block;
   font-size:25px;
   margin-top:3px
 }
+
 .statSmall{
-  font-size:13px;
-  color:#aaa;
-  margin-top:4px
-}
-.label{
   font-size:12px;
-  color:#999
+  color:#888894;
+  margin-top:5px;
+  line-height:1.35
 }
+
+.label{
+  font-size:11px;
+  color:#999;
+  letter-spacing:.03em
+}
+
 .sectionTitle{
   font-size:18px;
   font-weight:800;
   margin:28px 0 10px
 }
+
 .profileGrid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:9px
 }
+
 .profileItem{
   background:#17171f;
   border:1px solid #2b2b35;
   border-radius:14px;
   padding:12px
 }
+
 .profileName{
   font-size:12px;
   color:#9999a5;
   margin-bottom:5px
 }
+
 .profileScore{
   font-size:22px;
   font-weight:800
 }
+
 .profileBar{
   height:4px;
   border-radius:99px;
@@ -269,11 +410,13 @@ button{cursor:pointer}
   margin-top:8px;
   overflow:hidden
 }
+
 .profileFill{
   height:100%;
   background:#f5f5f7;
   border-radius:99px
 }
+
 .typeBox{
   border:1px solid #2b2b35;
   background:#17171f;
@@ -282,12 +425,14 @@ button{cursor:pointer}
   color:#d0d0d8;
   line-height:1.5
 }
+
 .typeTags{
   display:flex;
   gap:7px;
   flex-wrap:wrap;
   margin-top:10px
 }
+
 .typeTag{
   font-size:11px;
   background:#22222b;
@@ -295,39 +440,28 @@ button{cursor:pointer}
   border-radius:999px;
   padding:6px 9px
 }
+
 .note{
   font-size:12px;
   color:#777;
   margin-top:18px;
   line-height:1.5
 }
-.spinner{
-  padding:18px;
-  text-align:center;
-  color:#999
-}
-.huntRank{
-  display:inline-flex;
-  width:27px;
-  height:27px;
-  align-items:center;
-  justify-content:center;
-  border-radius:50%;
-  background:#22222b;
-  color:#aaa;
-  font-size:12px;
-  font-weight:800;
-  margin-right:8px
-}
-.genreResultHeader{
-  display:flex;
-  align-items:center;
-  margin-bottom:8px
-}
+
 @media(min-width:700px){
-  .card{padding:18px}
-  .big{font-size:48px}
-  .profileGrid{grid-template-columns:1fr 1fr 1fr}
+
+  .card{
+    padding:18px
+  }
+
+  .big{
+    font-size:48px
+  }
+
+  .profileGrid{
+    grid-template-columns:1fr 1fr 1fr
+  }
+
 }
 </style>
 </head>
@@ -358,6 +492,9 @@ button{cursor:pointer}
 
   </div>
 
+
+  <!-- 5 STAR HUNT -->
+
   <section id="hunt" class="panel active">
 
     <div class="toolbar">
@@ -386,6 +523,9 @@ button{cursor:pointer}
 
   </section>
 
+
+  <!-- GENRE HUNT -->
+
   <section id="genres" class="panel">
 
     <select id="genreSelect" class="selectbox">
@@ -399,6 +539,9 @@ button{cursor:pointer}
     </div>
 
   </section>
+
+
+  <!-- SEARCH -->
 
   <section id="search" class="panel">
 
@@ -421,6 +564,9 @@ button{cursor:pointer}
 
 </div>
 
+
+<!-- DETAIL -->
+
 <div id="detail" class="detail" hidden>
 
   <div class="detailbox">
@@ -434,6 +580,7 @@ button{cursor:pointer}
   </div>
 
 </div>
+
 
 <script src="owned.js"></script>
 
@@ -449,6 +596,11 @@ let hunt = [];
 let sortMode = 'p5';
 let selectedGenre = '';
 
+
+/* =========================
+   HELPERS
+   ========================= */
+
 const esc = s =>
   String(s ?? '').replace(
     /[&<>"]/g,
@@ -460,6 +612,7 @@ const esc = s =>
     }[c])
   );
 
+
 function key(t,y){
 
   return String(t || '')
@@ -469,6 +622,7 @@ function key(t,y){
     .trim() + '|' + y;
 
 }
+
 
 function stars(s){
 
@@ -480,6 +634,11 @@ function stars(s){
     .join(', ');
 
 }
+
+
+/* =========================
+   PROBABILITY HELPERS
+   ========================= */
 
 function probability(v){
 
@@ -502,6 +661,7 @@ function probability(v){
 
 }
 
+
 function pct(v){
 
   const p = probability(v);
@@ -512,6 +672,21 @@ function pct(v){
   return (p * 100).toFixed(1) + '%';
 
 }
+
+
+/*
+  Uses the actual p45 value when present.
+
+  Supported names:
+    p45
+    p4_5
+    p45plus
+    p45prob
+
+  Older movie data receives a compatibility
+  estimate until the calibrated p45 field
+  is added to the model output.
+*/
 
 function p45(m){
 
@@ -558,6 +733,11 @@ function p45(m){
 
 }
 
+
+/* =========================
+   FILM DNA
+   ========================= */
+
 const PROFILE_FIELDS = [
 
   ['character','Character'],
@@ -573,6 +753,7 @@ const PROFILE_FIELDS = [
   ['ideas','Ideas']
 
 ];
+
 
 function profileValue(m,field){
 
@@ -640,7 +821,8 @@ function profileValue(m,field){
 
   };
 
-  const names = aliases[field] || [field];
+  const names =
+    aliases[field] || [field];
 
   for(const n of names){
 
@@ -653,7 +835,10 @@ function profileValue(m,field){
       const v = Number(m[n]);
 
       if(Number.isFinite(v))
-        return Math.max(0,Math.min(10,v));
+        return Math.max(
+          0,
+          Math.min(10,v)
+        );
 
     }
 
@@ -664,16 +849,21 @@ function profileValue(m,field){
     m.profile[field] !== undefined
   ){
 
-    const v = Number(m.profile[field]);
+    const v =
+      Number(m.profile[field]);
 
     if(Number.isFinite(v))
-      return Math.max(0,Math.min(10,v));
+      return Math.max(
+        0,
+        Math.min(10,v)
+      );
 
   }
 
   return null;
 
 }
+
 
 function buildTypeTags(m){
 
@@ -719,9 +909,11 @@ function buildTypeTags(m){
 
 }
 
+
 function profileDescription(m){
 
-  const tags = buildTypeTags(m);
+  const tags =
+    buildTypeTags(m);
 
   if(!tags.length)
     return 'Spoiler-free film profile information is available when the Film DNA scores are present in the movie data.';
@@ -730,35 +922,92 @@ function profileDescription(m){
 
 }
 
-function card(m,owned,rank){
 
-  const p5 = probability(m.p5);
-  const p45v = p45(m);
+/* =========================
+   PROBABILITY BARS
+   ========================= */
+
+function probabilityBar(label,value,secondary){
+
+  const p =
+    probability(value);
+
+  if(p === null)
+    return '';
 
   return `
 
-    <div class="card" data-id="${esc(m.id)}">
+    <div class="probability">
 
-      <div class="row">
+      <div class="probLabel">
+        ${esc(label)}
+      </div>
 
-        <div>
+      <div class="probTrack">
 
-          ${
-            rank
-            ? `
-              <div class="genreResultHeader">
-                <span class="huntRank">${rank}</span>
-                <div class="movie">
-                  ${esc(m.title)}
-                </div>
-              </div>
-            `
-            : `
-              <div class="movie">
-                ${esc(m.title)}
-              </div>
-            `
-          }
+        <div
+          class="probFill${secondary ? ' secondary' : ''}"
+          style="width:${p * 100}%"
+        ></div>
+
+      </div>
+
+      <div class="probValue">
+        ${pct(p)}
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================
+   MOVIE CARD
+   ========================= */
+
+function card(m,owned,rank){
+
+  const p5 =
+    probability(m.p5);
+
+  const p45v =
+    p45(m);
+
+  const titleHTML =
+    rank
+    ? `
+      <div class="rankRow">
+
+        <span class="huntRank">
+          ${rank}
+        </span>
+
+        <div class="movie">
+          ${esc(m.title)}
+        </div>
+
+      </div>
+    `
+    : `
+      <div class="movie">
+        ${esc(m.title)}
+      </div>
+    `;
+
+  return `
+
+    <div
+      class="card"
+      data-id="${esc(m.id)}"
+    >
+
+      <div class="cardTop">
+
+        <div class="cardLeft">
+
+          ${titleHTML}
 
           <div class="meta">
             ${esc(m.year)} · ${esc(m.genre || '')}
@@ -766,47 +1015,45 @@ function card(m,owned,rank){
 
         </div>
 
-        <div>
+
+        <div class="ratingBlock">
 
           <div class="pred">
             ${Number(m.pred || 0).toFixed(1)}★
           </div>
 
-          <div class="probrow">
-
-            <div class="p5">
-              ${pct(p5)} 5★
-            </div>
-
-            <div class="p45">
-              ${pct(p45v)} 4½★+
-            </div>
-
+          <div class="predLabel">
+            predicted
           </div>
 
         </div>
 
       </div>
 
-      ${
-        owned
-        ? '<span class="badge">OWNED · UNWATCHED</span>'
-        : ''
-      }
+
+      <div class="probabilities">
+
+        ${probabilityBar(
+          '5★',
+          p5,
+          false
+        )}
+
+        ${probabilityBar(
+          '4½★+',
+          p45v,
+          true
+        )}
+
+      </div>
+
 
       ${
-        buildTypeTags(m).length
+        owned
         ? `
-          <div class="profileMini">
-            ${
-              buildTypeTags(m)
-                .slice(0,4)
-                .map(x =>
-                  `<span class="miniScore">${esc(x)}</span>`
-                )
-                .join('')
-            }
-          </div>
+          <span class="badge">
+            OWNED · UNWATCHED
+          </span>
         `
         : ''
       }
@@ -817,9 +1064,15 @@ function card(m,owned,rank){
 
 }
 
+
+/* =========================
+   5 STAR HUNT
+   ========================= */
+
 function renderHunt(){
 
-  let a = [...hunt];
+  let a =
+    [...hunt];
 
   if(sortMode === 'p5'){
 
@@ -830,6 +1083,7 @@ function renderHunt(){
     );
 
   }
+
   else if(sortMode === 'p45'){
 
     a.sort(
@@ -839,6 +1093,7 @@ function renderHunt(){
     );
 
   }
+
   else if(sortMode === 'pred'){
 
     a.sort(
@@ -848,27 +1103,40 @@ function renderHunt(){
     );
 
   }
+
   else{
 
     a.sort(
       (x,y) =>
         (
           (probability(y.p5) ?? 0) *
-          Math.max(0,5-Number(y.pred || 0))
+          Math.max(
+            0,
+            5 - Number(y.pred || 0)
+          )
         ) -
         (
           (probability(x.p5) ?? 0) *
-          Math.max(0,5-Number(x.pred || 0))
+          Math.max(
+            0,
+            5 - Number(x.pred || 0)
+          )
         )
     );
 
   }
 
-  document.getElementById('huntList').innerHTML =
-    a.map(x => card(x,true)).join('');
+  document
+    .getElementById('huntList')
+    .innerHTML =
+      a.map(x =>
+        card(x,true)
+      ).join('');
 
   document
-    .querySelectorAll('#huntList .card')
+    .querySelectorAll(
+      '#huntList .card'
+    )
     .forEach(el => {
 
       el.onclick = () =>
@@ -877,6 +1145,11 @@ function renderHunt(){
     });
 
 }
+
+
+/* =========================
+   GENRES
+   ========================= */
 
 function normalizeGenres(m){
 
@@ -887,34 +1160,45 @@ function normalizeGenres(m){
 
   if(Array.isArray(raw))
     return raw
-      .map(x => String(x).trim())
+      .map(x =>
+        String(x).trim()
+      )
       .filter(Boolean);
 
   return String(raw)
     .split(/[|,;/]/)
-    .map(x => x.trim())
+    .map(x =>
+      x.trim()
+    )
     .filter(Boolean);
 
 }
 
+
 function populateGenres(){
 
-  const set = new Set();
+  const set =
+    new Set();
 
   hunt.forEach(m => {
 
     normalizeGenres(m)
-      .forEach(g => set.add(g));
+      .forEach(g =>
+        set.add(g)
+      );
 
   });
 
-  const genres = [...set]
-    .sort((a,b) =>
-      a.localeCompare(b)
+  const genres =
+    [...set].sort(
+      (a,b) =>
+        a.localeCompare(b)
     );
 
   const select =
-    document.getElementById('genreSelect');
+    document.getElementById(
+      'genreSelect'
+    );
 
   select.innerHTML =
     '<option value="">Choose a genre…</option>' +
@@ -927,23 +1211,33 @@ function populateGenres(){
 
 }
 
+
 document
   .getElementById('genreSelect')
-  .addEventListener('change',e => {
+  .addEventListener(
+    'change',
+    e => {
 
-    selectedGenre = e.target.value;
+      selectedGenre =
+        e.target.value;
 
-    renderGenreHunt();
+      renderGenreHunt();
 
-  });
+    }
+  );
+
 
 function renderGenreHunt(){
 
   const list =
-    document.getElementById('genreList');
+    document.getElementById(
+      'genreList'
+    );
 
   const intro =
-    document.getElementById('genreIntro');
+    document.getElementById(
+      'genreIntro'
+    );
 
   if(!selectedGenre){
 
@@ -964,7 +1258,8 @@ function renderGenreHunt(){
 
       normalizeGenres(m)
         .some(g =>
-          g.toLowerCase() === genreLower
+          g.toLowerCase() ===
+          genreLower
         )
 
     );
@@ -1002,7 +1297,7 @@ function renderGenreHunt(){
   list.innerHTML =
     candidates
       .map((m,i) =>
-        card(m,true,i+1)
+        card(m,true,i + 1)
       )
       .join('');
 
@@ -1017,25 +1312,39 @@ function renderGenreHunt(){
 
 }
 
+
+/* =========================
+   DETAIL SCREEN
+   ========================= */
+
 function show(id){
 
-  let m = movieByKey.get(id);
+  const m =
+    movieByKey.get(id);
 
-  if(!m) return;
+  if(!m)
+    return;
 
-  let o = ownedByKey.get(
-    key(m.title,m.year)
-  );
+  const o =
+    ownedByKey.get(
+      key(m.title,m.year)
+    );
 
-  const p5 = probability(m.p5);
-  const p45v = p45(m);
+  const p5 =
+    probability(m.p5);
+
+  const p45v =
+    p45(m);
 
   const profileHTML =
     PROFILE_FIELDS
       .map(([field,label]) => {
 
         const value =
-          profileValue(m,field);
+          profileValue(
+            m,
+            field
+          );
 
         return `
 
@@ -1058,10 +1367,12 @@ function show(id){
               ? ''
               : `
                 <div class="profileBar">
+
                   <div
                     class="profileFill"
                     style="width:${value * 10}%"
                   ></div>
+
                 </div>
               `
             }
@@ -1076,240 +1387,331 @@ function show(id){
   const tags =
     buildTypeTags(m);
 
-  document.getElementById('detailBody').innerHTML = `
+  document
+    .getElementById('detailBody')
+    .innerHTML = `
 
-    <div class="big">
-      ${esc(m.title)}
-    </div>
-
-    <div class="meta">
-      ${esc(m.year)} · ${esc(m.genre || '')}
-    </div>
-
-    <div class="stats">
-
-      <div class="stat">
-
-        <span class="label">
-          PREDICTED MATT RATING
-        </span>
-
-        <b>
-          ${Number(m.pred || 0).toFixed(1)}★
-        </b>
-
+      <div class="big">
+        ${esc(m.title)}
       </div>
 
-      <div class="stat">
-
-        <span class="label">
-          5★ PROBABILITY
-        </span>
-
-        <b>
-          ${pct(p5)}
-        </b>
-
+      <div class="meta">
+        ${esc(m.year)} · ${esc(m.genre || '')}
       </div>
 
-      <div class="stat">
 
-        <span class="label">
-          4½★+ PROBABILITY
-        </span>
+      <div class="stats">
 
-        <b>
-          ${pct(p45v)}
-        </b>
+        <div class="stat">
 
-        <div class="statSmall">
-          Probability of a 4½★ or better reaction.
+          <span class="label">
+            PREDICTED MATT RATING
+          </span>
+
+          <b>
+            ${Number(
+              m.pred || 0
+            ).toFixed(1)}★
+          </b>
+
+        </div>
+
+
+        <div class="stat">
+
+          <span class="label">
+            5★ PROBABILITY
+          </span>
+
+          <b>
+            ${pct(p5)}
+          </b>
+
+        </div>
+
+
+        <div class="stat">
+
+          <span class="label">
+            4½★+ PROBABILITY
+          </span>
+
+          <b>
+            ${pct(p45v)}
+          </b>
+
+          <div class="statSmall">
+            Probability of a 4½★ or better reaction.
+          </div>
+
+        </div>
+
+
+        <div class="stat">
+
+          <span class="label">
+            IMDb
+          </span>
+
+          <b>
+            ${
+              Number(m.imdb || 0)
+              ? Number(m.imdb).toFixed(1)
+              : '—'
+            }
+          </b>
+
         </div>
 
       </div>
 
-      <div class="stat">
 
-        <span class="label">
-          IMDb
-        </span>
+      <div class="sectionTitle">
+        Film DNA
+      </div>
 
-        <b>
-          ${
-            Number(m.imdb || 0)
-              ? Number(m.imdb).toFixed(1)
-              : '—'
-          }
-        </b>
+
+      <div class="profileGrid">
+        ${profileHTML}
+      </div>
+
+
+      <div class="sectionTitle">
+        What kind of film is this?
+      </div>
+
+
+      <div class="typeBox">
+
+        ${esc(
+          profileDescription(m)
+        )}
+
+        ${
+          tags.length
+          ? `
+            <div class="typeTags">
+
+              ${
+                tags
+                  .map(x =>
+                    `<span class="typeTag">${esc(x)}</span>`
+                  )
+                  .join('')
+              }
+
+            </div>
+          `
+          : ''
+        }
 
       </div>
 
-    </div>
 
-    <div class="sectionTitle">
-      Film DNA
-    </div>
+      <div class="sectionTitle">
+        Film Information
+      </div>
 
-    <div class="profileGrid">
-      ${profileHTML}
-    </div>
 
-    <div class="sectionTitle">
-      What kind of film is this?
-    </div>
+      <p>
+        <b>Director:</b>
+        ${esc(
+          m.director ||
+          'Unknown'
+        )}
+      </p>
 
-    <div class="typeBox">
 
-      ${esc(profileDescription(m))}
+      <p>
+        <b>Cast:</b>
+        ${esc(
+          stars(m.stars)
+        )}
+      </p>
+
+
+      <p>
+        <b>Runtime:</b>
+        ${esc(
+          m.runtime ||
+          'Unknown'
+        )}
+      </p>
+
 
       ${
-        tags.length
+        o
         ? `
-          <div class="typeTags">
-
-            ${
-              tags
-                .map(x =>
-                  `<span class="typeTag">${esc(x)}</span>`
-                )
-                .join('')
-            }
-
-          </div>
+          <span class="badge">
+            OWNED · UNWATCHED
+          </span>
         `
         : ''
       }
 
-    </div>
 
-    <div class="sectionTitle">
-      Film Information
-    </div>
+      <div class="note">
 
-    <p>
-      <b>Director:</b>
-      ${esc(m.director || 'Unknown')}
-    </p>
+        Film DNA describes characteristics of
+        the film without revealing narrative events.
 
-    <p>
-      <b>Cast:</b>
-      ${esc(stars(m.stars))}
-    </p>
+        No plot developments, endings, twists,
+        deaths, betrayals, or other narrative
+        spoilers are used in this profile.
 
-    <p>
-      <b>Runtime:</b>
-      ${esc(m.runtime || 'Unknown')}
-    </p>
+      </div>
 
-    ${
-      o
-      ? '<span class="badge">OWNED · UNWATCHED</span>'
-      : ''
-    }
+    `;
 
-    <div class="note">
 
-      Film DNA describes characteristics of the film
-      without revealing narrative events.
+  document
+    .getElementById('detail')
+    .hidden = false;
 
-      No plot developments, endings, twists,
-      deaths, betrayals, or other narrative spoilers
-      are used in this profile.
-
-    </div>
-
-  `;
-
-  document.getElementById('detail').hidden = false;
-
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow =
+    'hidden';
 
 }
 
-document.getElementById('close').onclick = () => {
 
-  document.getElementById('detail').hidden = true;
+/* =========================
+   CLOSE DETAIL
+   ========================= */
 
-  document.body.style.overflow = '';
-
-};
-
-document.querySelectorAll('.tab').forEach(b => {
-
-  b.onclick = () => {
+document
+  .getElementById('close')
+  .onclick = () => {
 
     document
-      .querySelectorAll('.tab')
-      .forEach(x =>
-        x.classList.remove('active')
-      );
+      .getElementById('detail')
+      .hidden = true;
 
-    document
-      .querySelectorAll('.panel')
-      .forEach(x =>
-        x.classList.remove('active')
-      );
-
-    b.classList.add('active');
-
-    document
-      .getElementById(b.dataset.tab)
-      .classList.add('active');
+    document.body.style.overflow =
+      '';
 
   };
 
-});
 
-document.querySelectorAll('.chip').forEach(b => {
+/* =========================
+   TABS
+   ========================= */
 
-  b.onclick = () => {
+document
+  .querySelectorAll('.tab')
+  .forEach(b => {
 
-    document
-      .querySelectorAll('.chip')
-      .forEach(x =>
-        x.classList.remove('active')
+    b.onclick = () => {
+
+      document
+        .querySelectorAll('.tab')
+        .forEach(x =>
+          x.classList.remove(
+            'active'
+          )
+        );
+
+      document
+        .querySelectorAll('.panel')
+        .forEach(x =>
+          x.classList.remove(
+            'active'
+          )
+        );
+
+      b.classList.add(
+        'active'
       );
 
-    b.classList.add('active');
+      document
+        .getElementById(
+          b.dataset.tab
+        )
+        .classList.add(
+          'active'
+        );
 
-    sortMode = b.dataset.sort;
+    };
 
-    renderHunt();
+  });
 
-  };
 
-});
+/* =========================
+   SORT BUTTONS
+   ========================= */
+
+document
+  .querySelectorAll('.chip')
+  .forEach(b => {
+
+    b.onclick = () => {
+
+      document
+        .querySelectorAll('.chip')
+        .forEach(x =>
+          x.classList.remove(
+            'active'
+          )
+        );
+
+      b.classList.add(
+        'active'
+      );
+
+      sortMode =
+        b.dataset.sort;
+
+      renderHunt();
+
+    };
+
+  });
+
+
+/* =========================
+   TITLE SEARCH
+   ========================= */
 
 let timer;
 
-document.getElementById('q')
+document
+  .getElementById('q')
   .addEventListener(
     'input',
     e => {
 
       clearTimeout(timer);
 
-      timer = setTimeout(
-        () => search(e.target.value),
-        80
-      );
+      timer =
+        setTimeout(
+          () =>
+            search(
+              e.target.value
+            ),
+          80
+        );
 
     }
   );
 
+
 function search(q){
 
-  q = q.trim().toLowerCase();
+  q =
+    q.trim().toLowerCase();
 
-  let box =
-    document.getElementById('searchList');
+  const box =
+    document.getElementById(
+      'searchList'
+    );
 
   if(!q){
 
     box.innerHTML = '';
 
     document
-      .getElementById('searchStatus')
+      .getElementById(
+        'searchStatus'
+      )
       .textContent =
         'Search the movie library by title.';
 
@@ -1317,20 +1719,22 @@ function search(q){
 
   }
 
-  let terms =
+  const terms =
     q.split(/\s+/);
 
-  let hits = [];
+  const hits = [];
 
   for(const m of movies){
 
     const title =
-      String(m.title || '')
-        .toLowerCase();
+      String(
+        m.title || ''
+      ).toLowerCase();
 
     if(
       terms.every(
-        x => title.includes(x)
+        x =>
+          title.includes(x)
       )
     )
       hits.push(m);
@@ -1341,13 +1745,17 @@ function search(q){
   }
 
   document
-    .getElementById('searchStatus')
+    .getElementById(
+      'searchStatus'
+    )
     .textContent =
       `${hits.length}${hits.length === 60 ? '+' : ''} results`;
 
   box.innerHTML =
     hits
-      .map(m => card(m,false))
+      .map(m =>
+        card(m,false)
+      )
       .join('');
 
   box
@@ -1355,11 +1763,18 @@ function search(q){
     .forEach(el => {
 
       el.onclick = () =>
-        show(el.dataset.id);
+        show(
+          el.dataset.id
+        );
 
     });
 
 }
+
+
+/* =========================
+   MOVIE LIBRARY LOADER
+   ========================= */
 
 async function load(){
 
@@ -1380,10 +1795,14 @@ async function load(){
 
   ];
 
+
   document
-    .getElementById('status')
+    .getElementById(
+      'status'
+    )
     .textContent =
       'Starting movie library… 0%';
+
 
   for(
     let i = 0;
@@ -1391,30 +1810,41 @@ async function load(){
     i++
   ){
 
-    const name = files[i];
+    const name =
+      files[i];
 
     document
-      .getElementById('status')
+      .getElementById(
+        'status'
+      )
       .textContent =
         `Loading ${name}… ${Math.round(
           i / files.length * 100
         )}%`;
 
+
     await new Promise(
       (resolve,reject) => {
 
         const s =
-          document.createElement('script');
+          document.createElement(
+            'script'
+          );
 
-        s.src = name;
+        s.src =
+          name;
 
         s.onload = () => {
 
           document
-            .getElementById('status')
+            .getElementById(
+              'status'
+            )
             .textContent =
               `Loaded ${name}… ${Math.round(
-                (i + 1) / files.length * 100
+                (i + 1) /
+                files.length *
+                100
               )}%`;
 
           resolve();
@@ -1438,20 +1868,29 @@ async function load(){
 
   }
 
+
   movies =
-    (window.MOVIE_CHUNKS || []).flat();
+    (window.MOVIE_CHUNKS || [])
+      .flat();
+
 
   movieByKey =
     new Map(
-      movies.map(m => [m.id,m])
+      movies.map(
+        m => [m.id,m]
+      )
     );
+
 
   hunt =
     movies.filter(m => {
 
       const o =
         ownedByKey.get(
-          key(m.title,m.year)
+          key(
+            m.title,
+            m.year
+          )
         );
 
       return (
@@ -1462,17 +1901,27 @@ async function load(){
 
     });
 
+
   populateGenres();
 
+
   document
-    .getElementById('status')
+    .getElementById(
+      'status'
+    )
     .textContent =
       `${hunt.length} owned, unwatched movies with predictions · ` +
       `${movies.length.toLocaleString()} movies searchable`;
 
+
   renderHunt();
 
 }
+
+
+/* =========================
+   ERROR REPORTING
+   ========================= */
 
 window.addEventListener(
   'error',
@@ -1483,12 +1932,16 @@ window.addEventListener(
       'Unknown JavaScript error';
 
     document
-      .getElementById('status')
+      .getElementById(
+        'status'
+      )
       .textContent =
         'ERROR: ' + msg;
 
     document
-      .getElementById('huntList')
+      .getElementById(
+        'huntList'
+      )
       .innerHTML =
         '<div class="empty">JavaScript error: ' +
         esc(msg) +
@@ -1498,6 +1951,7 @@ window.addEventListener(
 
   }
 );
+
 
 window.addEventListener(
   'unhandledrejection',
@@ -1511,12 +1965,16 @@ window.addEventListener(
       );
 
     document
-      .getElementById('status')
+      .getElementById(
+        'status'
+      )
       .textContent =
         'ERROR: ' + msg;
 
     document
-      .getElementById('huntList')
+      .getElementById(
+        'huntList'
+      )
       .innerHTML =
         '<div class="empty">Loading error: ' +
         esc(msg) +
@@ -1527,19 +1985,30 @@ window.addEventListener(
   }
 );
 
+
+/* =========================
+   START
+   ========================= */
+
 load().catch(e => {
 
   document
-    .getElementById('status')
+    .getElementById(
+      'status'
+    )
     .textContent =
       'LOAD ERROR: ' +
       (e.message || e);
 
   document
-    .getElementById('huntList')
+    .getElementById(
+      'huntList'
+    )
     .innerHTML =
       '<div class="empty">' +
-      esc(e.message || e) +
+      esc(
+        e.message || e
+      ) +
       '</div>';
 
   console.error(e);
