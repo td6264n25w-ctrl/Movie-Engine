@@ -3,645 +3,354 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b0b0f">
-<title>Matt’s Movie Taste Model</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0b0b0d">
+<title>Matt's Movie Taste Model</title>
 
 <style>
-:root{
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",system-ui,sans-serif;
-  background:#0b0b0f;
-  color:#f5f5f7
-}
-
+:root{color-scheme:dark}
 *{box-sizing:border-box}
-
 body{
   margin:0;
-  background:linear-gradient(180deg,#111118,#08080b 55%);
-  min-height:100vh
+  background:#0b0b0d;
+  color:#f5f5f7;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",system-ui,sans-serif
 }
-
-button,input,select{font:inherit}
-button{cursor:pointer}
-
-.wrap{
-  max-width:900px;
+main{
+  max-width:760px;
   margin:auto;
-  padding:18px 14px 90px
+  padding:calc(20px + env(safe-area-inset-top)) 16px calc(44px + env(safe-area-inset-bottom))
 }
-
-.hero{
-  padding:12px 4px 18px
+h1{
+  font-size:30px;
+  line-height:1.05;
+  margin:0
 }
-
-.eyebrow{
-  font-size:12px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:#a7a7b0
-}
-
-.title{
-  font-size:32px;
-  font-weight:800;
-  margin:5px 0
-}
-
 .sub{
-  color:#a7a7b0;
-  font-size:14px
+  color:#999;
+  font-size:14px;
+  margin-top:6px
 }
-
-.tabs{
-  position:sticky;
-  top:0;
-  z-index:4;
-  background:rgba(11,11,15,.9);
-  backdrop-filter:blur(14px);
-  display:flex;
-  gap:8px;
-  padding:8px 0 12px;
-  overflow-x:auto
+.search{
+  margin:20px 0 10px;
+  position:relative
 }
-
-.tab{
-  flex:1;
-  min-width:90px;
-  border:1px solid #2a2a34;
-  background:#17171f;
-  color:#ddd;
-  border-radius:13px;
-  padding:12px 10px;
-  font-weight:700
-}
-
-.tab.active{
-  background:#f5f5f7;
-  color:#111
-}
-
-.panel{display:none}
-.panel.active{display:block}
-
-.searchbox{
+input{
   width:100%;
-  background:#15151d;
-  border:1px solid #30303a;
+  padding:16px 48px 16px 16px;
+  border-radius:15px;
+  border:1px solid #3a3a40;
+  background:#19191d;
   color:#fff;
-  border-radius:14px;
-  padding:14px 16px;
+  font-size:17px;
   outline:none
 }
-
-.searchbox:focus{
-  border-color:#888
+input:focus{
+  border-color:#777
 }
-
-.toolbar{
-  display:flex;
+.clear{
+  position:absolute;
+  right:8px;
+  top:8px;
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:11px;
+  background:#2a2a2f;
+  color:#ddd;
+  font-size:22px;
+  display:none
+}
+.tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
   gap:8px;
-  margin:10px 0 14px;
-  overflow:auto;
-  scrollbar-width:none
+  margin:12px 0
 }
-
-.toolbar::-webkit-scrollbar{
+.tabs button,.sort button{
+  border:1px solid #34343a;
+  border-radius:11px;
+  padding:12px;
+  background:#202025;
+  color:#fff;
+  font-weight:700;
+  font-size:15px
+}
+.tabs button.active,.sort button.active{
+  background:#fff;
+  color:#111
+}
+.sort{
+  display:flex;
+  gap:7px;
+  overflow:auto;
+  padding-bottom:4px;
+  margin:8px 0
+}
+.sort button{
+  white-space:nowrap;
+  padding:9px 11px;
+  font-size:13px
+}
+.status{
+  color:#8f8f96;
+  font-size:13px;
+  margin:10px 2px
+}
+.card{
+  background:#17171b;
+  border:1px solid #2e2e34;
+  border-radius:17px;
+  padding:15px;
+  margin:9px 0
+}
+.title{
+  font-size:18px;
+  font-weight:750;
+  line-height:1.25
+}
+.rating{
+  font-size:32px;
+  font-weight:850;
+  margin-top:8px;
+  letter-spacing:-.5px
+}
+.prob{
+  font-size:15px;
+  margin-top:2px;
+  color:#ddd
+}
+.meta{
+  color:#9d9da4;
+  font-size:13px;
+  line-height:1.35;
+  margin-top:7px
+}
+.badge{
+  display:inline-block;
+  margin-top:9px;
+  padding:5px 8px;
+  border-radius:8px;
+  background:#25252a;
+  color:#bdbdc4;
+  font-size:12px
+}
+.empty{
+  padding:25px 4px;
+  color:#8d8d94
+}
+.note{
+  color:#666;
+  font-size:12px;
+  line-height:1.4;
+  margin-top:22px
+}
+.hidden{
   display:none
 }
 
-.chip{
-  white-space:nowrap;
-  border:1px solid #30303a;
-  background:#15151d;
-  color:#bbb;
-  border-radius:999px;
-  padding:8px 11px
+.probRow{
+  margin-top:9px
 }
-
-.chip.active{
-  color:#111;
-  background:#fff
-}
-
-.selectbox{
-  width:100%;
-  border:1px solid #30303a;
-  background:#15151d;
-  color:#fff;
-  border-radius:14px;
-  padding:14px 16px;
-  outline:none;
-  margin:10px 0
-}
-
-.genreIntro{
-  margin:18px 2px 14px
-}
-
-.genreTitle{
-  font-size:22px;
-  font-weight:800
-}
-
-.genreSub{
-  color:#9999a5;
-  font-size:13px;
-  margin-top:4px
-}
-
-
-/* =========================
-   MOVIE CARDS
-   ========================= */
-
-.card{
-  border:1px solid #292933;
-  background:rgba(23,23,31,.92);
-  border-radius:18px;
-  padding:16px;
-  margin:10px 0;
-  cursor:pointer;
-  transition:transform .12s ease,border-color .12s ease
-}
-
-.card:hover{
-  border-color:#3c3c48
-}
-
-.card:active{
-  transform:scale(.995)
-}
-
-.cardTop{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:16px
-}
-
-.cardLeft{
-  min-width:0;
-  flex:1
-}
-
-.movie{
-  font-weight:750;
-  font-size:17px;
-  line-height:1.25
-}
-
-.meta{
-  font-size:13px;
-  color:#9999a5;
-  margin-top:5px;
-  line-height:1.35
-}
-
-.ratingBlock{
-  flex:0 0 auto;
-  text-align:right
-}
-
-.pred{
-  font-size:25px;
-  font-weight:850;
-  line-height:1
-}
-
-.predLabel{
-  color:#888894;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.06em;
-  margin-top:5px
-}
-
-.probabilities{
-  margin-top:15px;
-  display:grid;
-  gap:8px
-}
-
-.probability{
-  display:grid;
-  grid-template-columns:46px 1fr 43px;
-  align-items:center;
-  gap:8px
-}
-
 .probLabel{
+  display:flex;
+  justify-content:space-between;
+  color:#aaa;
   font-size:11px;
-  color:#aaaab4;
-  font-weight:700
+  margin-bottom:4px
 }
-
 .probTrack{
   height:5px;
-  background:#292933;
+  background:#29292e;
   border-radius:99px;
   overflow:hidden
 }
-
 .probFill{
   height:100%;
-  background:#f0f0f3;
+  background:#777;
   border-radius:99px
 }
-
-.probFill.secondary{
-  background:#888892
-}
-
-.probValue{
-  text-align:right;
-  font-size:11px;
-  color:#bdbdc8;
-  font-variant-numeric:tabular-nums
-}
-
-.badge{
-  display:inline-block;
-  font-size:10px;
-  color:#aaa;
-  background:#20202a;
-  border-radius:7px;
-  padding:4px 7px;
-  margin-top:12px
-}
-
-.rankRow{
+.dna{
   display:flex;
-  align-items:center;
-  gap:9px
-}
-
-.huntRank{
-  display:inline-flex;
-  flex:0 0 auto;
-  width:25px;
-  height:25px;
-  align-items:center;
-  justify-content:center;
-  border-radius:50%;
-  background:#22222b;
-  color:#aaa;
-  font-size:11px;
-  font-weight:800
-}
-
-
-/* =========================
-   EMPTY / LOADING
-   ========================= */
-
-.empty{
-  padding:35px 10px;
-  text-align:center;
-  color:#92929c
-}
-
-.spinner{
-  padding:18px;
-  text-align:center;
-  color:#999
-}
-
-
-/* =========================
-   DETAIL
-   ========================= */
-
-.detail{
-  position:fixed;
-  inset:0;
-  z-index:10;
-  background:#0b0b0f;
-  overflow:auto;
-  padding:18px 16px 60px
-}
-
-.detailbox{
-  max-width:760px;
-  margin:auto
-}
-
-.close{
-  border:0;
-  background:#22222b;
-  color:#fff;
-  border-radius:12px;
-  padding:10px 14px
-}
-
-.big{
-  font-size:38px;
-  font-weight:850;
-  margin:24px 0 4px;
-  line-height:1.08
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin:20px 0
-}
-
-.stat{
-  background:#17171f;
-  border:1px solid #2b2b35;
-  border-radius:16px;
-  padding:14px
-}
-
-.stat b{
-  display:block;
-  font-size:25px;
-  margin-top:3px
-}
-
-.statSmall{
-  font-size:12px;
-  color:#888894;
-  margin-top:5px;
-  line-height:1.35
-}
-
-.label{
-  font-size:11px;
-  color:#999;
-  letter-spacing:.03em
-}
-
-.sectionTitle{
-  font-size:18px;
-  font-weight:800;
-  margin:28px 0 10px
-}
-
-.profileGrid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px
-}
-
-.profileItem{
-  background:#17171f;
-  border:1px solid #2b2b35;
-  border-radius:14px;
-  padding:12px
-}
-
-.profileName{
-  font-size:12px;
-  color:#9999a5;
-  margin-bottom:5px
-}
-
-.profileScore{
-  font-size:22px;
-  font-weight:800
-}
-
-.profileBar{
-  height:4px;
-  border-radius:99px;
-  background:#2b2b35;
-  margin-top:8px;
-  overflow:hidden
-}
-
-.profileFill{
-  height:100%;
-  background:#f5f5f7;
-  border-radius:99px
-}
-
-.typeBox{
-  border:1px solid #2b2b35;
-  background:#17171f;
-  border-radius:16px;
-  padding:14px;
-  color:#d0d0d8;
-  line-height:1.5
-}
-
-.typeTags{
-  display:flex;
-  gap:7px;
   flex-wrap:wrap;
+  gap:6px;
   margin-top:10px
 }
-
-.typeTag{
-  font-size:11px;
-  background:#22222b;
-  color:#c7c7cf;
-  border-radius:999px;
-  padding:6px 9px
+.dnaTag{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:8px;
+  background:#25252a;
+  color:#bdbdc4;
+  font-size:11px
 }
-
-.note{
-  font-size:12px;
-  color:#777;
-  margin-top:18px;
-  line-height:1.5
+.detail{
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px solid #2d2d32
 }
-
-@media(min-width:700px){
-
-  .card{
-    padding:18px
-  }
-
-  .big{
-    font-size:48px
-  }
-
-  .profileGrid{
-    grid-template-columns:1fr 1fr 1fr
-  }
-
+.detailBtn{
+  width:100%;
+  border:1px solid #34343a;
+  border-radius:11px;
+  padding:10px;
+  background:#202025;
+  color:#fff;
+  font-weight:700
+}
+.backBtn{
+  width:100%;
+  border:1px solid #34343a;
+  border-radius:11px;
+  padding:12px;
+  background:#202025;
+  color:#fff;
+  font-weight:700;
+  margin-bottom:12px
+}
+.dnaGrid{
+  display:grid;
+  gap:10px;
+  margin-top:12px
+}
+.dnaItem{
+  background:#19191d;
+  border:1px solid #2e2e34;
+  border-radius:12px;
+  padding:10px
+}
+.dnaHead{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  margin-bottom:6px
+}
+.dnaValue{
+  color:#bbb
 }
 </style>
 </head>
 
 <body>
+<main>
 
-<div class="wrap">
+<h1>Matt's Movie Taste Model</h1>
+<div class="sub">Personal movie prediction engine · spoiler-free</div>
 
-  <div class="hero">
-    <div class="eyebrow">MATT’S MOVIE TASTE MODEL</div>
-    <div class="title">5★ Hunt</div>
-    <div class="sub" id="status">Loading your movie universe…</div>
-  </div>
-
-  <div class="tabs">
-
-    <button class="tab active" data-tab="hunt">
-      5★ Hunt
-    </button>
-
-    <button class="tab" data-tab="genres">
-      Genre Hunt
-    </button>
-
-    <button class="tab" data-tab="search">
-      Search
-    </button>
-
-  </div>
-
-
-  <!-- 5 STAR HUNT -->
-
-  <section id="hunt" class="panel active">
-
-    <div class="toolbar">
-
-      <button class="chip active" data-sort="p5">
-        5★ probability
-      </button>
-
-      <button class="chip" data-sort="p45">
-        4½★ probability
-      </button>
-
-      <button class="chip" data-sort="pred">
-        Predicted rating
-      </button>
-
-      <button class="chip" data-sort="high">
-        High upside
-      </button>
-
-    </div>
-
-    <div id="huntList" class="spinner">
-      Loading…
-    </div>
-
-  </section>
-
-
-  <!-- GENRE HUNT -->
-
-  <section id="genres" class="panel">
-
-    <select id="genreSelect" class="selectbox">
-      <option value="">Choose a genre…</option>
-    </select>
-
-    <div id="genreIntro" class="genreIntro"></div>
-
-    <div id="genreList" class="spinner">
-      Choose a genre to begin.
-    </div>
-
-  </section>
-
-
-  <!-- SEARCH -->
-
-  <section id="search" class="panel">
-
-    <input
-      id="q"
-      class="searchbox"
-      placeholder="Search movies by title…"
-      autocomplete="off"
-    >
-
-    <div
-      class="sub"
-      style="margin:10px 2px"
-      id="searchStatus"
-    ></div>
-
-    <div id="searchList"></div>
-
-  </section>
-
+<div class="search">
+  <input
+    id="q"
+    type="search"
+    placeholder="Search movies by title…"
+    enterkeyhint="search"
+    autocomplete="off"
+  >
+  <button id="clear" class="clear" aria-label="Clear">×</button>
 </div>
 
-
-<!-- DETAIL -->
-
-<div id="detail" class="detail" hidden>
-
-  <div class="detailbox">
-
-    <button class="close" id="close">
-      ← Back
-    </button>
-
-    <div id="detailBody"></div>
-
-  </div>
-
+<div class="tabs">
+  <button id="hunt" class="active">★ 5★ Hunt</button>
+  <button id="searchTab">Search Library</button>
 </div>
 
+<div id="sort" class="sort"></div>
+<div id="status" class="status"></div>
+<div id="list"></div>
 
-<script src="owned.js"></script>
+<div class="note">
+Predictions are from Matt's current taste model. 5★ probability is a separate estimate from predicted enjoyment. No spoilers or plot twists are shown.
+</div>
+
+</main>
 
 <script>
+
+window.MOVIE_CHUNKS = window.MOVIE_CHUNKS || [];
+
+const files = [
+  "movies-00.js",
+  "movies-01.js",
+  "movies-02.js",
+  "movies-03.js",
+  "movies-04.js",
+  "movies-05.js",
+  "movies-06.js",
+  "movies-07.js",
+  "movies-08.js",
+  "movies-09.js",
+  "movies-10.js",
+  "movies-11.js",
+  "movies-12.js"
+];
+
+const list = document.getElementById('list');
+const q = document.getElementById('q');
+const status = document.getElementById('status');
+const huntBtn = document.getElementById('hunt');
+const searchTab = document.getElementById('searchTab');
+const sortBox = document.getElementById('sort');
+const clearBtn = document.getElementById('clear');
+
+let movies = [];
+let currentMode = 'hunt';
+let currentSort = 'p5';
+let detailMovie = null;
+
+const PROFILE_FIELDS = [
+  ['character','Character'],
+  ['performance','Performance'],
+  ['directing','Directing'],
+  ['juice','Juice'],
+  ['moralDilemma','Moral Dilemma'],
+  ['dialogue','Dialogue'],
+  ['originality','Originality'],
+  ['creativeStorytelling','Creative Storytelling'],
+  ['immersion','Immersion'],
+  ['emotionalConsequence','Emotional Consequence'],
+  ['ideas','Ideas']
+];
+
+const PROFILE_ALIASES = {
+  character:['character','Character'],
+  performance:['performance','Performance','acting'],
+  directing:['directing','Directing'],
+  juice:['juice','Juice'],
+  moralDilemma:['moralDilemma','moral_dilemma','Moral Dilemma'],
+  dialogue:['dialogue','Dialogue'],
+  originality:['originality','Originality'],
+  creativeStorytelling:['creativeStorytelling','creative_storytelling','Creative Storytelling'],
+  immersion:['immersion','Immersion'],
+  emotionalConsequence:['emotionalConsequence','emotional_consequence','Emotional Consequence'],
+  ideas:['ideas','Ideas']
+};
 
 const ownedByKey = new Map(
   (window.OWNED || []).map(x => [x.key, x])
 );
 
-let movies = [];
-let movieByKey = new Map();
-let hunt = [];
-let sortMode = 'p5';
-let selectedGenre = '';
-
-
-/* =========================
-   HELPERS
-   ========================= */
-
-const esc = s =>
-  String(s ?? '').replace(
-    /[&<>"]/g,
-    c => ({
-      '&':'&amp;',
-      '<':'&lt;',
-      '>':'&gt;',
-      '"':'&quot;'
-    }[c])
-  );
-
-
 function key(t,y){
-
   return String(t || '')
     .toLowerCase()
     .normalize('NFKD')
     .replace(/[^a-z0-9]+/g,' ')
     .trim() + '|' + y;
-
 }
 
-
-function stars(s){
-
-  return String(s || '')
-    .split(/\n|,/)
-    .map(x => x.trim())
-    .filter(Boolean)
-    .slice(0,4)
-    .join(', ');
-
+function esc(s){
+  return String(s ?? '').replace(
+    /[&<>"']/g,
+    c => ({
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      '"':'&quot;',
+      "'":'&#39;'
+    }[c])
+  );
 }
-
-
-/* =========================
-   PROBABILITY HELPERS
-   ========================= */
 
 function probability(v){
-
   if(v === null || v === undefined || v === '')
     return null;
 
@@ -658,38 +367,18 @@ function probability(v){
     n = n / 100;
 
   return Math.max(0,Math.min(1,n));
-
 }
 
-
 function pct(v){
-
   const p = probability(v);
 
   if(p === null)
     return '—';
 
   return (p * 100).toFixed(1) + '%';
-
 }
 
-
-/*
-  Uses the actual p45 value when present.
-
-  Supported names:
-    p45
-    p4_5
-    p45plus
-    p45prob
-
-  Older movie data receives a compatibility
-  estimate until the calibrated p45 field
-  is added to the model output.
-*/
-
 function p45(m){
-
   const direct =
     m.p45 ??
     m.p4_5 ??
@@ -718,7 +407,6 @@ function p45(m){
     );
 
   if(p5 !== null){
-
     return Math.max(
       p5,
       Math.min(
@@ -726,1296 +414,402 @@ function p45(m){
         normalized * 0.82 + p5 * 0.18
       )
     );
-
   }
 
   return normalized * 0.82;
-
 }
 
-
-/* =========================
-   FILM DNA
-   ========================= */
-
-const PROFILE_FIELDS = [
-
-  ['character','Character'],
-  ['performance','Performance'],
-  ['directing','Directing'],
-  ['juice','Juice'],
-  ['moralDilemma','Moral Dilemma'],
-  ['dialogue','Dialogue'],
-  ['originality','Originality'],
-  ['creativeStorytelling','Creative Storytelling'],
-  ['immersion','Immersion'],
-  ['emotionalConsequence','Emotional Consequence'],
-  ['ideas','Ideas']
-
-];
-
-
 function profileValue(m,field){
-
-  const aliases = {
-
-    character:[
-      'character',
-      'characterScore'
-    ],
-
-    performance:[
-      'performance',
-      'performanceScore'
-    ],
-
-    directing:[
-      'directing',
-      'direction',
-      'directingScore',
-      'directionScore'
-    ],
-
-    juice:[
-      'juice',
-      'juiceScore'
-    ],
-
-    moralDilemma:[
-      'moralDilemma',
-      'moral_dilemma',
-      'moralDilemmaScore'
-    ],
-
-    dialogue:[
-      'dialogue',
-      'dialogueScore'
-    ],
-
-    originality:[
-      'originality',
-      'originalityScore'
-    ],
-
-    creativeStorytelling:[
-      'creativeStorytelling',
-      'creative_storytelling',
-      'creativeStorytellingScore'
-    ],
-
-    immersion:[
-      'immersion',
-      'immersionScore'
-    ],
-
-    emotionalConsequence:[
-      'emotionalConsequence',
-      'emotional_consequence',
-      'emotionalConsequenceScore'
-    ],
-
-    ideas:[
-      'ideas',
-      'ideasScore'
-    ]
-
-  };
-
-  const names =
-    aliases[field] || [field];
-
-  for(const n of names){
-
-    if(
-      m[n] !== undefined &&
-      m[n] !== null &&
-      m[n] !== ''
-    ){
-
-      const v = Number(m[n]);
-
-      if(Number.isFinite(v))
-        return Math.max(
-          0,
-          Math.min(10,v)
-        );
-
-    }
-
+  for(const k of PROFILE_ALIASES[field] || [field]){
+    if(m[k] !== undefined && m[k] !== null && m[k] !== '')
+      return Number(m[k]);
   }
 
-  if(
-    m.profile &&
-    m.profile[field] !== undefined
-  ){
-
-    const v =
-      Number(m.profile[field]);
-
-    if(Number.isFinite(v))
-      return Math.max(
-        0,
-        Math.min(10,v)
-      );
-
+  if(m.profile){
+    for(const k of PROFILE_ALIASES[field] || [field]){
+      if(m.profile[k] !== undefined && m.profile[k] !== null && m.profile[k] !== '')
+        return Number(m.profile[k]);
+    }
   }
 
   return null;
-
 }
-
 
 function buildTypeTags(m){
-
   const tags = [];
 
-  const p = field =>
-    profileValue(m,field);
+  const rules = [
+    ['character','Character-rich'],
+    ['performance','Performance-driven'],
+    ['directing','Director-forward'],
+    ['juice','High-energy'],
+    ['moralDilemma','Morally complex'],
+    ['dialogue','Dialogue-heavy'],
+    ['originality','Distinctive'],
+    ['creativeStorytelling','Formally inventive'],
+    ['immersion','Highly immersive'],
+    ['emotionalConsequence','Emotionally consequential'],
+    ['ideas','Idea-rich']
+  ];
 
-  if((p('character') ?? 0) >= 8.5)
-    tags.push('Character-rich');
+  for(const [field,label] of rules){
+    const v = profileValue(m,field);
 
-  if((p('performance') ?? 0) >= 8.5)
-    tags.push('Performance-driven');
+    if(v !== null && Number.isFinite(v) && v >= 8.5)
+      tags.push(label);
+  }
 
-  if((p('directing') ?? 0) >= 8.5)
-    tags.push('Director-forward');
-
-  if((p('juice') ?? 0) >= 8.5)
-    tags.push('High-energy');
-
-  if((p('moralDilemma') ?? 0) >= 8.5)
-    tags.push('Morally complex');
-
-  if((p('dialogue') ?? 0) >= 8.5)
-    tags.push('Dialogue-heavy');
-
-  if((p('originality') ?? 0) >= 8.5)
-    tags.push('Distinctive');
-
-  if((p('creativeStorytelling') ?? 0) >= 8.5)
-    tags.push('Formally inventive');
-
-  if((p('immersion') ?? 0) >= 8.5)
-    tags.push('Highly immersive');
-
-  if((p('emotionalConsequence') ?? 0) >= 8.5)
-    tags.push('Emotionally consequential');
-
-  if((p('ideas') ?? 0) >= 8.5)
-    tags.push('Idea-rich');
-
-  return tags.slice(0,6);
-
+  return tags;
 }
 
-
-function profileDescription(m){
-
-  const tags =
-    buildTypeTags(m);
-
-  if(!tags.length)
-    return 'Spoiler-free film profile information is available when the Film DNA scores are present in the movie data.';
-
-  return tags.join(' · ');
-
-}
-
-
-/* =========================
-   PROBABILITY BARS
-   ========================= */
-
-function probabilityBar(label,value,secondary){
-
-  const p =
-    probability(value);
+function probBar(label,value){
+  const p = probability(value);
 
   if(p === null)
     return '';
 
   return `
-
-    <div class="probability">
-
+    <div class="probRow">
       <div class="probLabel">
-        ${esc(label)}
+        <span>${esc(label)}</span>
+        <span>${pct(p)}</span>
       </div>
-
       <div class="probTrack">
-
-        <div
-          class="probFill${secondary ? ' secondary' : ''}"
-          style="width:${p * 100}%"
-        ></div>
-
+        <div class="probFill" style="width:${Math.round(p*100)}%"></div>
       </div>
-
-      <div class="probValue">
-        ${pct(p)}
-      </div>
-
     </div>
-
   `;
-
 }
 
-
-/* =========================
-   MOVIE CARD
-   ========================= */
-
-function card(m,owned,rank){
-
-  const p5 =
-    probability(m.p5);
-
-  const p45v =
-    p45(m);
-
-  const titleHTML =
-    rank
-    ? `
-      <div class="rankRow">
-
-        <span class="huntRank">
-          ${rank}
-        </span>
-
-        <div class="movie">
-          ${esc(m.title)}
-        </div>
-
-      </div>
-    `
-    : `
-      <div class="movie">
-        ${esc(m.title)}
-      </div>
-    `;
+function movieCard(m,index){
+  const pred = Number(m.pred);
+  const p5 = probability(m.p5);
+  const p45v = p45(m);
+  const tags = buildTypeTags(m);
 
   return `
-
-    <div
-      class="card"
-      data-id="${esc(m.id)}"
-    >
-
-      <div class="cardTop">
-
-        <div class="cardLeft">
-
-          ${titleHTML}
-
-          <div class="meta">
-            ${esc(m.year)} · ${esc(m.genre || '')}
-          </div>
-
-        </div>
-
-
-        <div class="ratingBlock">
-
-          <div class="pred">
-            ${Number(m.pred || 0).toFixed(1)}★
-          </div>
-
-          <div class="predLabel">
-            predicted
-          </div>
-
-        </div>
-
+    <div class="card">
+      <div class="title">
+        ${esc(m.title)}
+        ${m.year ? `<span class="meta">(${esc(m.year)})</span>` : ''}
       </div>
-
-
-      <div class="probabilities">
-
-        ${probabilityBar(
-          '5★',
-          p5,
-          false
-        )}
-
-        ${probabilityBar(
-          '4½★+',
-          p45v,
-          true
-        )}
-
-      </div>
-
 
       ${
-        owned
-        ? `
-          <span class="badge">
-            OWNED · UNWATCHED
-          </span>
-        `
-        : ''
+        Number.isFinite(pred)
+          ? `<div class="rating">${pred.toFixed(1)}★</div>`
+          : `<div class="rating">—</div>`
       }
 
-    </div>
-
-  `;
-
-}
-
-
-/* =========================
-   5 STAR HUNT
-   ========================= */
-
-function renderHunt(){
-
-  let a =
-    [...hunt];
-
-  if(sortMode === 'p5'){
-
-    a.sort(
-      (x,y) =>
-        (probability(y.p5) ?? 0) -
-        (probability(x.p5) ?? 0)
-    );
-
-  }
-
-  else if(sortMode === 'p45'){
-
-    a.sort(
-      (x,y) =>
-        (p45(y) ?? 0) -
-        (p45(x) ?? 0)
-    );
-
-  }
-
-  else if(sortMode === 'pred'){
-
-    a.sort(
-      (x,y) =>
-        Number(y.pred || 0) -
-        Number(x.pred || 0)
-    );
-
-  }
-
-  else{
-
-    a.sort(
-      (x,y) =>
-        (
-          (probability(y.p5) ?? 0) *
-          Math.max(
-            0,
-            5 - Number(y.pred || 0)
-          )
-        ) -
-        (
-          (probability(x.p5) ?? 0) *
-          Math.max(
-            0,
-            5 - Number(x.pred || 0)
-          )
-        )
-    );
-
-  }
-
-  document
-    .getElementById('huntList')
-    .innerHTML =
-      a.map(x =>
-        card(x,true)
-      ).join('');
-
-  document
-    .querySelectorAll(
-      '#huntList .card'
-    )
-    .forEach(el => {
-
-      el.onclick = () =>
-        show(el.dataset.id);
-
-    });
-
-}
-
-
-/* =========================
-   GENRES
-   ========================= */
-
-function normalizeGenres(m){
-
-  const raw =
-    m.genre ??
-    m.genres ??
-    '';
-
-  if(Array.isArray(raw))
-    return raw
-      .map(x =>
-        String(x).trim()
-      )
-      .filter(Boolean);
-
-  return String(raw)
-    .split(/[|,;/]/)
-    .map(x =>
-      x.trim()
-    )
-    .filter(Boolean);
-
-}
-
-
-function populateGenres(){
-
-  const set =
-    new Set();
-
-  hunt.forEach(m => {
-
-    normalizeGenres(m)
-      .forEach(g =>
-        set.add(g)
-      );
-
-  });
-
-  const genres =
-    [...set].sort(
-      (a,b) =>
-        a.localeCompare(b)
-    );
-
-  const select =
-    document.getElementById(
-      'genreSelect'
-    );
-
-  select.innerHTML =
-    '<option value="">Choose a genre…</option>' +
-
-    genres
-      .map(g =>
-        `<option value="${esc(g)}">${esc(g)}</option>`
-      )
-      .join('');
-
-}
-
-
-document
-  .getElementById('genreSelect')
-  .addEventListener(
-    'change',
-    e => {
-
-      selectedGenre =
-        e.target.value;
-
-      renderGenreHunt();
-
-    }
-  );
-
-
-function renderGenreHunt(){
-
-  const list =
-    document.getElementById(
-      'genreList'
-    );
-
-  const intro =
-    document.getElementById(
-      'genreIntro'
-    );
-
-  if(!selectedGenre){
-
-    intro.innerHTML = '';
-
-    list.innerHTML =
-      '<div class="empty">Choose a genre to see the five movies with the highest predicted 5★ probability.</div>';
-
-    return;
-
-  }
-
-  const genreLower =
-    selectedGenre.toLowerCase();
-
-  let candidates =
-    hunt.filter(m =>
-
-      normalizeGenres(m)
-        .some(g =>
-          g.toLowerCase() ===
-          genreLower
-        )
-
-    );
-
-  candidates.sort(
-    (a,b) =>
-      (probability(b.p5) ?? 0) -
-      (probability(a.p5) ?? 0)
-  );
-
-  candidates =
-    candidates.slice(0,5);
-
-  intro.innerHTML = `
-
-    <div class="genreTitle">
-      ${esc(selectedGenre)}
-    </div>
-
-    <div class="genreSub">
-      Five owned, unwatched films with the highest predicted 5★ probability.
-    </div>
-
-  `;
-
-  if(!candidates.length){
-
-    list.innerHTML =
-      '<div class="empty">No matching films found.</div>';
-
-    return;
-
-  }
-
-  list.innerHTML =
-    candidates
-      .map((m,i) =>
-        card(m,true,i + 1)
-      )
-      .join('');
-
-  list
-    .querySelectorAll('.card')
-    .forEach(el => {
-
-      el.onclick = () =>
-        show(el.dataset.id);
-
-    });
-
-}
-
-
-/* =========================
-   DETAIL SCREEN
-   ========================= */
-
-function show(id){
-
-  const m =
-    movieByKey.get(id);
-
-  if(!m)
-    return;
-
-  const o =
-    ownedByKey.get(
-      key(m.title,m.year)
-    );
-
-  const p5 =
-    probability(m.p5);
-
-  const p45v =
-    p45(m);
-
-  const profileHTML =
-    PROFILE_FIELDS
-      .map(([field,label]) => {
-
-        const value =
-          profileValue(
-            m,
-            field
-          );
-
-        return `
-
-          <div class="profileItem">
-
-            <div class="profileName">
-              ${esc(label)}
-            </div>
-
-            <div class="profileScore">
-              ${
-                value === null
-                ? '—'
-                : value.toFixed(1)
-              }
-            </div>
-
-            ${
-              value === null
-              ? ''
-              : `
-                <div class="profileBar">
-
-                  <div
-                    class="profileFill"
-                    style="width:${value * 10}%"
-                  ></div>
-
-                </div>
-              `
-            }
-
-          </div>
-
-        `;
-
-      })
-      .join('');
-
-  const tags =
-    buildTypeTags(m);
-
-  document
-    .getElementById('detailBody')
-    .innerHTML = `
-
-      <div class="big">
-        ${esc(m.title)}
-      </div>
+      ${probBar('5★ probability',p5)}
+      ${probBar('4½★+ probability',p45v)}
 
       <div class="meta">
-        ${esc(m.year)} · ${esc(m.genre || '')}
+        ${esc(m.genre || '')}
+        ${m.director ? ' · ' + esc(m.director) : ''}
       </div>
-
-
-      <div class="stats">
-
-        <div class="stat">
-
-          <span class="label">
-            PREDICTED MATT RATING
-          </span>
-
-          <b>
-            ${Number(
-              m.pred || 0
-            ).toFixed(1)}★
-          </b>
-
-        </div>
-
-
-        <div class="stat">
-
-          <span class="label">
-            5★ PROBABILITY
-          </span>
-
-          <b>
-            ${pct(p5)}
-          </b>
-
-        </div>
-
-
-        <div class="stat">
-
-          <span class="label">
-            4½★+ PROBABILITY
-          </span>
-
-          <b>
-            ${pct(p45v)}
-          </b>
-
-          <div class="statSmall">
-            Probability of a 4½★ or better reaction.
-          </div>
-
-        </div>
-
-
-        <div class="stat">
-
-          <span class="label">
-            IMDb
-          </span>
-
-          <b>
-            ${
-              Number(m.imdb || 0)
-              ? Number(m.imdb).toFixed(1)
-              : '—'
-            }
-          </b>
-
-        </div>
-
-      </div>
-
-
-      <div class="sectionTitle">
-        Film DNA
-      </div>
-
-
-      <div class="profileGrid">
-        ${profileHTML}
-      </div>
-
-
-      <div class="sectionTitle">
-        What kind of film is this?
-      </div>
-
-
-      <div class="typeBox">
-
-        ${esc(
-          profileDescription(m)
-        )}
-
-        ${
-          tags.length
-          ? `
-            <div class="typeTags">
-
-              ${
-                tags
-                  .map(x =>
-                    `<span class="typeTag">${esc(x)}</span>`
-                  )
-                  .join('')
-              }
-
-            </div>
-          `
-          : ''
-        }
-
-      </div>
-
-
-      <div class="sectionTitle">
-        Film Information
-      </div>
-
-
-      <p>
-        <b>Director:</b>
-        ${esc(
-          m.director ||
-          'Unknown'
-        )}
-      </p>
-
-
-      <p>
-        <b>Cast:</b>
-        ${esc(
-          stars(m.stars)
-        )}
-      </p>
-
-
-      <p>
-        <b>Runtime:</b>
-        ${esc(
-          m.runtime ||
-          'Unknown'
-        )}
-      </p>
-
 
       ${
-        o
-        ? `
-          <span class="badge">
-            OWNED · UNWATCHED
-          </span>
-        `
-        : ''
+        tags.length
+          ? `<div class="dna">${tags.map(x=>`<span class="dnaTag">${esc(x)}</span>`).join('')}</div>`
+          : ''
       }
 
+      <div class="detail">
+        <button class="detailBtn" onclick="showDetail(${index})">
+          View Film DNA
+        </button>
+      </div>
+    </div>
+  `;
+}
 
-      <div class="note">
+function detailView(m){
+  const p5 = probability(m.p5);
+  const p45v = p45(m);
 
-        Film DNA describes characteristics of
-        the film without revealing narrative events.
+  const fields = PROFILE_FIELDS.map(([field,label]) => {
+    const v = profileValue(m,field);
 
-        No plot developments, endings, twists,
-        deaths, betrayals, or other narrative
-        spoilers are used in this profile.
+    if(v === null || !Number.isFinite(v))
+      return '';
 
+    return `
+      <div class="dnaItem">
+        <div class="dnaHead">
+          <span>${esc(label)}</span>
+          <span class="dnaValue">${v.toFixed(1)}/10</span>
+        </div>
+        <div class="probTrack">
+          <div class="probFill" style="width:${Math.max(0,Math.min(100,v*10))}%"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <button class="backBtn" onclick="closeDetail()">← Back</button>
+
+    <div class="card">
+      <div class="title">
+        ${esc(m.title)}
+        ${m.year ? `<span class="meta">(${esc(m.year)})</span>` : ''}
       </div>
 
-    `;
+      ${
+        Number.isFinite(Number(m.pred))
+          ? `<div class="rating">${Number(m.pred).toFixed(1)}★</div>`
+          : ''
+      }
 
+      <div class="meta">
+        ${m.genre ? esc(m.genre) : ''}
+        ${m.director ? ' · ' + esc(m.director) : ''}
+      </div>
 
-  document
-    .getElementById('detail')
-    .hidden = false;
+      ${
+        m.stars
+          ? `<div class="meta">${esc(m.stars)}</div>`
+          : ''
+      }
 
-  document.body.style.overflow =
-    'hidden';
+      ${
+        m.runtime
+          ? `<div class="meta">${esc(m.runtime)}</div>`
+          : ''
+      }
 
+      ${probBar('5★ probability',p5)}
+      ${probBar('4½★+ probability',p45v)}
+
+      ${
+        m.description
+          ? `<div class="detail"><div class="meta">${esc(m.description)}</div></div>`
+          : ''
+      }
+
+      <div class="detail">
+        <div class="title" style="font-size:16px">Film DNA</div>
+        <div class="dnaGrid">${fields || '<div class="empty">Film DNA not available for this film.</div>'}</div>
+      </div>
+    </div>
+  `;
 }
 
+window.showDetail = function(index){
+  detailMovie = movies[index] || null;
 
-/* =========================
-   CLOSE DETAIL
-   ========================= */
-
-document
-  .getElementById('close')
-  .onclick = () => {
-
-    document
-      .getElementById('detail')
-      .hidden = true;
-
-    document.body.style.overflow =
-      '';
-
-  };
-
-
-/* =========================
-   TABS
-   ========================= */
-
-document
-  .querySelectorAll('.tab')
-  .forEach(b => {
-
-    b.onclick = () => {
-
-      document
-        .querySelectorAll('.tab')
-        .forEach(x =>
-          x.classList.remove(
-            'active'
-          )
-        );
-
-      document
-        .querySelectorAll('.panel')
-        .forEach(x =>
-          x.classList.remove(
-            'active'
-          )
-        );
-
-      b.classList.add(
-        'active'
-      );
-
-      document
-        .getElementById(
-          b.dataset.tab
-        )
-        .classList.add(
-          'active'
-        );
-
-    };
-
-  });
-
-
-/* =========================
-   SORT BUTTONS
-   ========================= */
-
-document
-  .querySelectorAll('.chip')
-  .forEach(b => {
-
-    b.onclick = () => {
-
-      document
-        .querySelectorAll('.chip')
-        .forEach(x =>
-          x.classList.remove(
-            'active'
-          )
-        );
-
-      b.classList.add(
-        'active'
-      );
-
-      sortMode =
-        b.dataset.sort;
-
-      renderHunt();
-
-    };
-
-  });
-
-
-/* =========================
-   TITLE SEARCH
-   ========================= */
-
-let timer;
-
-document
-  .getElementById('q')
-  .addEventListener(
-    'input',
-    e => {
-
-      clearTimeout(timer);
-
-      timer =
-        setTimeout(
-          () =>
-            search(
-              e.target.value
-            ),
-          80
-        );
-
-    }
-  );
-
-
-function search(q){
-
-  q =
-    q.trim().toLowerCase();
-
-  const box =
-    document.getElementById(
-      'searchList'
-    );
-
-  if(!q){
-
-    box.innerHTML = '';
-
-    document
-      .getElementById(
-        'searchStatus'
-      )
-      .textContent =
-        'Search the movie library by title.';
-
+  if(!detailMovie)
     return;
 
+  list.innerHTML = detailView(detailMovie);
+  status.textContent = '';
+  sortBox.innerHTML = '';
+};
+
+window.closeDetail = function(){
+  detailMovie = null;
+  render();
+};
+
+function renderSort(){
+  if(currentMode !== 'hunt'){
+    sortBox.innerHTML = '';
+    return;
   }
 
-  const terms =
-    q.split(/\s+/);
-
-  const hits = [];
-
-  for(const m of movies){
-
-    const title =
-      String(
-        m.title || ''
-      ).toLowerCase();
-
-    if(
-      terms.every(
-        x =>
-          title.includes(x)
-      )
-    )
-      hits.push(m);
-
-    if(hits.length >= 60)
-      break;
-
-  }
-
-  document
-    .getElementById(
-      'searchStatus'
-    )
-    .textContent =
-      `${hits.length}${hits.length === 60 ? '+' : ''} results`;
-
-  box.innerHTML =
-    hits
-      .map(m =>
-        card(m,false)
-      )
-      .join('');
-
-  box
-    .querySelectorAll('.card')
-    .forEach(el => {
-
-      el.onclick = () =>
-        show(
-          el.dataset.id
-        );
-
-    });
-
+  sortBox.innerHTML = `
+    <button class="${currentSort==='p5'?'active':''}" onclick="setSort('p5')">5★ Probability</button>
+    <button class="${currentSort==='p45'?'active':''}" onclick="setSort('p45')">4½★+ Probability</button>
+    <button class="${currentSort==='pred'?'active':''}" onclick="setSort('pred')">Predicted Rating</button>
+  `;
 }
 
+window.setSort = function(sort){
+  currentSort = sort;
+  render();
+};
 
-/* =========================
-   MOVIE LIBRARY LOADER
-   ========================= */
+function hunt(){
+  currentMode = 'hunt';
+  detailMovie = null;
 
-async function load(){
+  huntBtn.classList.add('active');
+  searchTab.classList.remove('active');
 
-  const files = [
+  q.value = '';
+  clearBtn.style.display = 'none';
 
-    "movies-00.js",
-    "movies-01.js",
-    "movies-02.js",
-    "movies-03.js",
-    "movies-04.js",
-    "movies-05.js",
-    "movies-06.js",
-    "movies-07.js",
-    "movies-08.js",
-    "movies-09.js",
-    "movies-10.js",
-    "movies-11.js"
-
-  ];
-
-
-  document
-    .getElementById(
-      'status'
-    )
-    .textContent =
-      'Starting movie library… 0%';
-
-
-  for(
-    let i = 0;
-    i < files.length;
-    i++
-  ){
-
-    const name =
-      files[i];
-
-    document
-      .getElementById(
-        'status'
-      )
-      .textContent =
-        `Loading ${name}… ${Math.round(
-          i / files.length * 100
-        )}%`;
-
-
-    await new Promise(
-      (resolve,reject) => {
-
-        const s =
-          document.createElement(
-            'script'
-          );
-
-        s.src =
-          name;
-
-        s.onload = () => {
-
-          document
-            .getElementById(
-              'status'
-            )
-            .textContent =
-              `Loaded ${name}… ${Math.round(
-                (i + 1) /
-                files.length *
-                100
-              )}%`;
-
-          resolve();
-
-        };
-
-        s.onerror = () => {
-
-          reject(
-            new Error(
-              `Could not load ${name}`
-            )
-          );
-
-        };
-
-        document.head.appendChild(s);
-
-      }
-    );
-
-  }
-
-
-  movies =
-    (window.MOVIE_CHUNKS || [])
-      .flat();
-
-
-  movieByKey =
-    new Map(
-      movies.map(
-        m => [m.id,m]
-      )
-    );
-
-
-  hunt =
-    movies.filter(m => {
-
-      const o =
-        ownedByKey.get(
-          key(
-            m.title,
-            m.year
-          )
-        );
-
-      return (
-        o &&
-        Number(o.rated) === 0 &&
-        m.pred != null
-      );
-
-    });
-
-
-  populateGenres();
-
-
-  document
-    .getElementById(
-      'status'
-    )
-    .textContent =
-      `${hunt.length} owned, unwatched movies with predictions · ` +
-      `${movies.length.toLocaleString()} movies searchable`;
-
-
-  renderHunt();
-
+  render();
 }
 
+function searchMode(){
+  currentMode = 'search';
+  detailMovie = null;
 
-/* =========================
-   ERROR REPORTING
-   ========================= */
+  searchTab.classList.add('active');
+  huntBtn.classList.remove('active');
 
-window.addEventListener(
-  'error',
-  e => {
+  render();
+  q.focus();
+}
 
-    const msg =
-      e.message ||
-      'Unknown JavaScript error';
-
-    document
-      .getElementById(
-        'status'
-      )
-      .textContent =
-        'ERROR: ' + msg;
-
-    document
-      .getElementById(
-        'huntList'
-      )
-      .innerHTML =
-        '<div class="empty">JavaScript error: ' +
-        esc(msg) +
-        '</div>';
-
-    console.error(e);
-
+function render(){
+  if(detailMovie){
+    list.innerHTML = detailView(detailMovie);
+    status.textContent = '';
+    sortBox.innerHTML = '';
+    return;
   }
-);
 
+  renderSort();
 
-window.addEventListener(
-  'unhandledrejection',
-  e => {
-
-    const msg =
-      e.reason?.message ||
-      String(
-        e.reason ||
-        'Unknown promise error'
-      );
-
-    document
-      .getElementById(
-        'status'
-      )
-      .textContent =
-        'ERROR: ' + msg;
-
-    document
-      .getElementById(
-        'huntList'
-      )
-      .innerHTML =
-        '<div class="empty">Loading error: ' +
-        esc(msg) +
-        '</div>';
-
-    console.error(e);
-
+  if(currentMode === 'search'){
+    renderSearch();
+    return;
   }
-);
 
+  const hunt = movies.filter(m => {
+    const o = ownedByKey.get(key(m.title,m.year));
 
-/* =========================
-   START
-   ========================= */
+    return (
+      o &&
+      Number(o.rated) === 0 &&
+      m.pred != null
+    );
+  });
 
-load().catch(e => {
+  hunt.sort((a,b) => {
+    if(currentSort === 'p45')
+      return (p45(b) ?? -1) - (p45(a) ?? -1);
 
-  document
-    .getElementById(
-      'status'
+    if(currentSort === 'pred')
+      return Number(b.pred ?? -999) - Number(a.pred ?? -999);
+
+    return (probability(b.p5) ?? -1) - (probability(a.p5) ?? -1);
+  });
+
+  const top = hunt.slice(0,5);
+
+  status.textContent =
+    `${hunt.length} owned · unwatched · showing top ${top.length}`;
+
+  if(!top.length){
+    list.innerHTML =
+      '<div class="empty">No owned unwatched films with predictions found.</div>';
+    return;
+  }
+
+  list.innerHTML = top.map(m => {
+    const index = movies.indexOf(m);
+    return movieCard(m,index);
+  }).join('');
+}
+
+function renderSearch(){
+  const s = q.value.trim().toLowerCase();
+
+  clearBtn.style.display = s ? 'block' : 'none';
+
+  if(!s){
+    status.textContent = '';
+    list.innerHTML =
+      '<div class="empty">Search by film title.</div>';
+    return;
+  }
+
+  const hits = movies
+    .filter(m =>
+      String(m.title || '')
+        .toLowerCase()
+        .includes(s)
     )
-    .textContent =
-      'LOAD ERROR: ' +
-      (e.message || e);
+    .slice(0,40);
 
-  document
-    .getElementById(
-      'huntList'
-    )
-    .innerHTML =
-      '<div class="empty">' +
-      esc(
-        e.message || e
-      ) +
-      '</div>';
+  status.textContent =
+    hits.length
+      ? `${hits.length} result${hits.length===1?'':'s'}`
+      : 'No results';
 
-  console.error(e);
+  list.innerHTML = hits.length
+    ? hits.map(m => movieCard(m,movies.indexOf(m))).join('')
+    : '<div class="empty">No matching movie in the current library.</div>';
+}
 
+huntBtn.addEventListener('click',hunt);
+searchTab.addEventListener('click',searchMode);
+
+q.addEventListener('input',() => {
+  if(currentMode === 'search')
+    renderSearch();
 });
 
-</script>
+q.addEventListener('keydown',e => {
+  if(e.key === 'Enter'){
+    e.preventDefault();
 
+    if(currentMode !== 'search')
+      searchMode();
+    else
+      renderSearch();
+  }
+});
+
+clearBtn.addEventListener('click',() => {
+  q.value = '';
+  renderSearch();
+  q.focus();
+});
+
+async function loadScript(src){
+  return new Promise((resolve,reject) => {
+    const s = document.createElement('script');
+
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = () =>
+      reject(new Error('Could not load ' + src));
+
+    document.head.appendChild(s);
+  });
+}
+
+async function boot(){
+
+  status.textContent = 'Loading movie library…';
+
+  try{
+
+    for(const file of files){
+      await loadScript(file);
+    }
+
+    movies = (window.MOVIE_CHUNKS || [])
+      .flat()
+      .filter(Boolean);
+
+    status.textContent =
+      `${movies.length.toLocaleString()} movies loaded`;
+
+    render();
+
+  }catch(err){
+
+    console.error(err);
+
+    status.textContent = 'Error loading movie library.';
+
+    list.innerHTML = `
+      <div class="empty">
+        Could not load the movie data files.
+        Make sure movies-00.js through movies-12.js
+        are in the same folder as index.html.
+      </div>
+    `;
+  }
+}
+
+boot();
+
+</script>
 </body>
 </html>
