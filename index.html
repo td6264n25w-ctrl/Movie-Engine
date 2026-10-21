@@ -5,811 +5,91 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0b0b0d">
-<title>Matt's Movie Taste Model</title>
-
+<meta name="theme-color" content="#10090c">
+<title>Matt's Movie Engine — Awards Edition</title>
 <style>
-:root{color-scheme:dark}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  background:#0b0b0d;
-  color:#f5f5f7;
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",system-ui,sans-serif
-}
-main{
-  max-width:760px;
-  margin:auto;
-  padding:calc(20px + env(safe-area-inset-top)) 16px calc(44px + env(safe-area-inset-bottom))
-}
-h1{
-  font-size:30px;
-  line-height:1.05;
-  margin:0
-}
-.sub{
-  color:#999;
-  font-size:14px;
-  margin-top:6px
-}
-.search{
-  margin:20px 0 10px;
-  position:relative
-}
-input{
-  width:100%;
-  padding:16px 48px 16px 16px;
-  border-radius:15px;
-  border:1px solid #3a3a40;
-  background:#19191d;
-  color:#fff;
-  font-size:17px;
-  outline:none
-}
-input:focus{
-  border-color:#777
-}
-.clear{
-  position:absolute;
-  right:8px;
-  top:8px;
-  width:38px;
-  height:38px;
-  border:0;
-  border-radius:11px;
-  background:#2a2a2f;
-  color:#ddd;
-  font-size:22px;
-  display:none
-}
-.tabs{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin:12px 0
-}
-.tabs button,.sort button{
-  border:1px solid #34343a;
-  border-radius:11px;
-  padding:12px;
-  background:#202025;
-  color:#fff;
-  font-weight:700;
-  font-size:15px
-}
-.tabs button.active,.sort button.active{
-  background:#fff;
-  color:#111
-}
-.sort{
-  display:flex;
-  gap:7px;
-  overflow:auto;
-  padding-bottom:4px;
-  margin:8px 0
-}
-.sort button{
-  white-space:nowrap;
-  padding:9px 11px;
-  font-size:13px
-}
-.status{
-  color:#8f8f96;
-  font-size:13px;
-  margin:10px 2px
-}
-.card{
-  background:#17171b;
-  border:1px solid #2e2e34;
-  border-radius:17px;
-  padding:15px;
-  margin:9px 0
-}
-.title{
-  font-size:18px;
-  font-weight:750;
-  line-height:1.25
-}
-.rating{
-  font-size:32px;
-  font-weight:850;
-  margin-top:8px;
-  letter-spacing:-.5px
-}
-.prob{
-  font-size:15px;
-  margin-top:2px;
-  color:#ddd
-}
-.meta{
-  color:#9d9da4;
-  font-size:13px;
-  line-height:1.35;
-  margin-top:7px
-}
-.badge{
-  display:inline-block;
-  margin-top:9px;
-  padding:5px 8px;
-  border-radius:8px;
-  background:#25252a;
-  color:#bdbdc4;
-  font-size:12px
-}
-.empty{
-  padding:25px 4px;
-  color:#8d8d94
-}
-.note{
-  color:#666;
-  font-size:12px;
-  line-height:1.4;
-  margin-top:22px
-}
-.hidden{
-  display:none
-}
-
-.probRow{
-  margin-top:9px
-}
-.probLabel{
-  display:flex;
-  justify-content:space-between;
-  color:#aaa;
-  font-size:11px;
-  margin-bottom:4px
-}
-.probTrack{
-  height:5px;
-  background:#29292e;
-  border-radius:99px;
-  overflow:hidden
-}
-.probFill{
-  height:100%;
-  background:#777;
-  border-radius:99px
-}
-.dna{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  margin-top:10px
-}
-.dnaTag{
-  display:inline-block;
-  padding:5px 8px;
-  border-radius:8px;
-  background:#25252a;
-  color:#bdbdc4;
-  font-size:11px
-}
-.detail{
-  margin-top:12px;
-  padding-top:12px;
-  border-top:1px solid #2d2d32
-}
-.detailBtn{
-  width:100%;
-  border:1px solid #34343a;
-  border-radius:11px;
-  padding:10px;
-  background:#202025;
-  color:#fff;
-  font-weight:700
-}
-.backBtn{
-  width:100%;
-  border:1px solid #34343a;
-  border-radius:11px;
-  padding:12px;
-  background:#202025;
-  color:#fff;
-  font-weight:700;
-  margin-bottom:12px
-}
-.dnaGrid{
-  display:grid;
-  gap:10px;
-  margin-top:12px
-}
-.dnaItem{
-  background:#19191d;
-  border:1px solid #2e2e34;
-  border-radius:12px;
-  padding:10px
-}
-.dnaHead{
-  display:flex;
-  justify-content:space-between;
-  font-size:13px;
-  margin-bottom:6px
-}
-.dnaValue{
-  color:#bbb
-}
+:root{color-scheme:dark;--bg:#10090c;--panel:#1a1116;--panel2:#23171e;--line:#49303a;--text:#f8f0e7;--muted:#b8a5ad;--gold:#d8b66a;--gold2:#f2dca0;--red:#8d2037;--red2:#bd3450;--green:#91b99b;--shadow:0 18px 48px #0005}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 50% -10%,#57202d 0,transparent 43%),var(--bg);color:var(--text);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background:repeating-linear-gradient(115deg,transparent 0 90px,#d8b66a 91px,transparent 92px 180px);mask-image:linear-gradient(to bottom,#000,transparent 55%)}
+main{position:relative;max-width:1000px;margin:auto;padding:calc(24px + env(safe-area-inset-top)) 16px calc(48px + env(safe-area-inset-bottom))}
+.masthead{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #d8b66a55;padding-bottom:18px}.brandmark{display:flex;align-items:center;gap:11px}.laurel{width:42px;height:42px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold2);font-size:22px;box-shadow:0 0 28px #d8b66a20}.eyebrow{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-weight:800}.brand{font-family:Georgia,"Times New Roman",serif;font-size:clamp(23px,4vw,35px);line-height:1.05;margin:4px 0 0;font-weight:500;letter-spacing:-.025em}.edition{border:1px solid #d8b66a66;color:var(--gold2);border-radius:999px;padding:8px 11px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.hero{padding:26px 0 20px}.hero h2{font-family:Georgia,"Times New Roman",serif;font-size:clamp(26px,5vw,42px);font-weight:500;line-height:1.08;max-width:650px;margin:0}.hero p{color:var(--muted);max-width:620px;line-height:1.6;font-size:14px;margin:11px 0 0}.hero em{color:var(--gold2);font-style:normal}
+.search{position:relative;margin:18px 0 12px}.search input{width:100%;padding:16px 48px 16px 16px;border-radius:14px;border:1px solid var(--line);background:#160e12eF;color:var(--text);font-size:16px;outline:none;box-shadow:var(--shadow)}.search input:focus{border-color:var(--gold)}.clear{position:absolute;right:8px;top:8px;width:38px;height:38px;border:0;border-radius:10px;background:#38232c;color:#f4dce3;font-size:22px;display:none}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.tabs button,.sort button,.secondary{border:1px solid var(--line);border-radius:11px;padding:12px;background:#20151b;color:#e9dfe2;font-weight:750;font-size:13px;cursor:pointer;transition:transform .15s,border-color .15s,background .15s}.tabs button:hover,.sort button:hover,.secondary:hover{border-color:var(--gold)}.tabs button.active,.sort button.active{background:linear-gradient(135deg,#e8ce8b,#b78b43);border-color:#f2dca0;color:#25160d}.sort{display:flex;gap:7px;overflow:auto;padding:2px 0 5px;margin:8px 0}.sort button{white-space:nowrap;padding:9px 12px;font-size:12px}.status{color:var(--muted);font-size:12px;margin:12px 2px;min-height:17px}.sectionLabel{display:flex;align-items:center;gap:10px;margin:18px 0 8px;color:var(--gold);font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:800}.sectionLabel:after{content:"";height:1px;flex:1;background:linear-gradient(90deg,#d8b66a66,transparent)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card{background:linear-gradient(145deg,#21161d,#171015);border:1px solid #49303a;border-radius:17px;padding:15px;box-shadow:0 8px 28px #0002;min-width:0;transition:transform .18s,border-color .18s}.card:hover{border-color:#9d7747}.cardTop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.title{font-family:Georgia,"Times New Roman",serif;font-size:20px;font-weight:600;line-height:1.2}.year{font:12px ui-sans-serif,system-ui;color:var(--muted);white-space:nowrap}.meta{color:var(--muted);font-size:12px;line-height:1.45;margin-top:7px}.pill{display:inline-flex;align-items:center;gap:5px;border:1px solid #654a36;background:#34251e;color:var(--gold2);border-radius:999px;padding:5px 8px;font-size:10px;font-weight:750;letter-spacing:.04em;margin-top:10px}.detailBtn{width:100%;margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid #6a4a36;border-radius:10px;padding:11px 12px;background:#2a1b21;color:#f8e8c4;font-weight:750;font-size:12px;cursor:pointer}.detailBtn:hover{background:#3a2029;border-color:var(--gold)}.arrow{font-size:17px;color:var(--gold)}
+.backBtn{border:1px solid var(--line);border-radius:10px;padding:10px 13px;background:#20151b;color:var(--text);font-weight:700;cursor:pointer;margin-bottom:12px}.detailHero{border:1px solid #6b4c37;border-radius:19px;padding:20px;background:radial-gradient(ellipse at 100% 0,#5b202e80,transparent 55%),linear-gradient(135deg,#24161d,#151014);box-shadow:var(--shadow)}.detailHero h2{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:clamp(25px,5vw,38px);margin:0}.detailSubtitle{color:var(--muted);font-size:13px;margin-top:7px}.peBlock{margin-top:20px;display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px}.peNumber{font-family:Georgia,"Times New Roman",serif;font-size:clamp(45px,9vw,68px);line-height:.9;color:var(--gold2);letter-spacing:-.04em}.peLabel{font-size:10px;text-transform:uppercase;letter-spacing:.18em;color:var(--gold);font-weight:800;padding-bottom:5px}.peMissing{font-size:13px;color:var(--muted);padding-bottom:6px}.panel{border:1px solid var(--line);border-radius:16px;background:#191116;padding:15px;margin-top:13px}.panel h3{font-family:Georgia,"Times New Roman",serif;font-size:20px;font-weight:500;margin:0 0 13px}.probGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.probCard{background:#24171e;border:1px solid #4a303a;border-radius:12px;padding:12px}.probName{font-size:11px;color:var(--muted);line-height:1.35}.probValue{font-family:Georgia,"Times New Roman",serif;font-size:27px;color:var(--gold2);margin-top:5px}.probPct{font-size:11px;color:#c9b7bd;margin-top:2px}.modelTable{width:100%;border-collapse:collapse;font-size:13px}.modelTable th{text-align:left;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:9px 7px;border-bottom:1px solid var(--line)}.modelTable td{padding:10px 7px;border-bottom:1px solid #39262e}.modelTable tr:last-child td{border-bottom:0}.modelTable td:last-child,.modelTable th:last-child{text-align:right;font-variant-numeric:tabular-nums}.modelGroup td{color:var(--gold);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding-top:14px}.missing{color:#806d75;font-style:italic}.spreadGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.stat{background:#24171e;border:1px solid #4a303a;border-radius:11px;padding:11px}.statLabel{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}.statValue{font-family:Georgia,"Times New Roman",serif;color:var(--gold2);font-size:23px;margin-top:5px}.bar{height:6px;background:#39262e;border-radius:99px;overflow:hidden;margin-top:9px}.bar>span{display:block;height:100%;background:linear-gradient(90deg,var(--red2),var(--gold));border-radius:99px}.empty{padding:28px 8px;color:var(--muted);text-align:center;border:1px dashed #49303a;border-radius:14px;line-height:1.6}.note{color:#927e86;font-size:11px;line-height:1.55;margin-top:24px}.notice{color:#d7c4a0;background:#34251e;border:1px solid #6b4c37;border-radius:11px;padding:11px 12px;font-size:12px;line-height:1.5;margin-top:12px}.hidden{display:none!important}
+@media(max-width:560px){main{padding-left:13px;padding-right:13px}.edition{font-size:9px;padding:7px 8px}.grid{grid-template-columns:1fr}.card{padding:14px}.probGrid{grid-template-columns:1fr 1fr}.spreadGrid{grid-template-columns:repeat(3,minmax(0,1fr))}.stat{padding:9px}.statValue{font-size:20px}.modelTable{font-size:12px}.modelTable th,.modelTable td{padding-left:5px;padding-right:5px}}
 </style>
 </head>
-
-<body>
-<main>
-
-<h1>Matt's Movie Taste Model</h1>
-<div class="sub">Personal movie prediction engine · spoiler-free</div>
-
-<div class="search">
-  <input
-    id="q"
-    type="search"
-    placeholder="Search movies by title…"
-    enterkeyhint="search"
-    autocomplete="off"
-  >
-  <button id="clear" class="clear" aria-label="Clear">×</button>
-</div>
-
-<div class="tabs">
-  <button id="hunt" class="active">★ 5★ Hunt</button>
-  <button id="searchTab">Search Library</button>
-</div>
-
-<div id="sort" class="sort"></div>
-<div id="status" class="status"></div>
-<div id="list"></div>
-
-<div class="note">
-Predictions are from Matt's current taste model. 5★ probability is a separate estimate from predicted enjoyment. No spoilers or plot twists are shown.
-</div>
-
+<body><main>
+<header class="masthead"><div class="brandmark"><div class="laurel" aria-hidden="true">✦</div><div><div class="eyebrow">A personal cinema intelligence</div><h1 class="brand">Matt's Movie Engine</h1></div></div><div class="edition">Awards Edition · 2.0</div></header>
+<section class="hero"><h2>Find the films that could become <em>your next favorite.</em></h2><p>A personalized prediction engine for your film library. Browse your unwatched collection, or search the catalog and open any title for its full prediction profile.</p></section>
+<div class="search"><input id="q" type="search" placeholder="Search films by title…" enterkeyhint="search" autocomplete="off" aria-label="Search films"><button id="clear" class="clear" aria-label="Clear search">×</button></div>
+<div class="tabs"><button id="hunt" class="active">✦ 5★ Hunt</button><button id="searchTab">Search Library</button></div><div id="sort" class="sort"></div><div id="status" class="status" aria-live="polite"></div><div id="list"></div>
+<div class="note">Predictions are estimates, not guarantees. The 321-film sidecar is matched by normalized title and year; values are shown only when present in the verified source. Display values are rounded to two decimal places; calculations use the underlying stored precision. Your actual ratings remain separate from blind predictions.</div>
 </main>
-
 <script>
-
-window.MOVIE_CHUNKS = window.MOVIE_CHUNKS || [];
-
-const files = [
-  "movies-00.js",
-  "movies-01.js",
-  "movies-02.js",
-  "movies-03.js",
-  "movies-04.js",
-  "movies-05.js",
-  "movies-06.js",
-  "movies-07.js",
-  "movies-08.js",
-  "movies-09.js",
-  "movies-10.js",
-  "movies-11.js",
-  "movies-12.js"
+window.MOVIE_CHUNKS=window.MOVIE_CHUNKS||[];
+const CATALOG_FILES=["movies-00.js","movies-01.js","movies-02.js","movies-03.js","movies-04.js","movies-05.js","movies-06.js","movies-07.js","movies-08.js","movies-09.js","movies-10.js","movies-11.js"];
+const $=id=>document.getElementById(id);const list=$('list'),q=$('q'),status=$('status'),huntBtn=$('hunt'),searchTab=$('searchTab'),sortBox=$('sort'),clearBtn=$('clear');
+let movies=[],currentMode='hunt',currentSort='p5',detailMovie=null,ownedByKey=new Map(),predictiveByKey=new Map(),sidecarMeta=null;
+const D15_FIELDS=[['Character','Character'],['Performance','Performance'],['Story','Story'],['Concept','Concept'],['Dialogue','Dialogue'],['Visual','Visual'],['Sound','Sound'],['Atmosphere','Atmosphere'],['Emotion','Emotion'],['Juice','Juice'],['Craft','Craft'],['Cohesion','Cohesion'],['Self-Fulfillment','Self-Fulfillment'],['Immersion','Immersion'],['Mental Activation','Mental Activation']];
+const MODEL_GROUPS=[
+ {title:'XG3 ensemble',fields:[['Updated XG3 PE','Updated XG3 PE'],['CHALLENGER_conservative_trained_252.json','Conservative XG3'],['CHALLENGER_aggressive_unweighted_trained_252.json','Aggressive XG3 · unweighted'],['CHALLENGER_aggressive_3x_high_rating_weighted_trained_252.json','Aggressive XG3 · 3× high-rating weighted']]},
+ {title:'PE control and comparison models',fields:[['Updated PE Control','Updated PE Control'],['Model A','Model A'],['Model B','Model B'],['Model C','Model C'],['Final Predicted Enjoyment','Final Predicted Enjoyment'],['Model B approx','Model B approx'],['Model C approx','Model C approx'],['Model Spread','Stored Model Spread']]}
 ];
-
-const list = document.getElementById('list');
-const q = document.getElementById('q');
-const status = document.getElementById('status');
-const huntBtn = document.getElementById('hunt');
-const searchTab = document.getElementById('searchTab');
-const sortBox = document.getElementById('sort');
-const clearBtn = document.getElementById('clear');
-
-let movies = [];
-let currentMode = 'hunt';
-let currentSort = 'p5';
-let detailMovie = null;
-
-const PROFILE_FIELDS = [
-  ['character','Character'],
-  ['performance','Performance'],
-  ['directing','Directing'],
-  ['juice','Juice'],
-  ['moralDilemma','Moral Dilemma'],
-  ['dialogue','Dialogue'],
-  ['originality','Originality'],
-  ['creativeStorytelling','Creative Storytelling'],
-  ['immersion','Immersion'],
-  ['emotionalConsequence','Emotional Consequence'],
-  ['ideas','Ideas']
+const PROB_GROUPS=[
+ {title:'XG3 probabilities',fields:[['XG3 P>=3.5','P(≥3.50)'],['XG3 P>=4.0','P(≥4.00)'],['XG3 P>=4.5','P(≥4.50)'],['XG3 P5','P(=5.00)']]},
+ {title:'PE Control probabilities',fields:[['PE P>=3.5','P(≥3.50)'],['PE P>=4.0','P(≥4.00)'],['PE P>=4.5','P(≥4.50)'],['PE P5','P(=5.00)']]},
+ {title:'Original stored probabilities',fields:[['P>=3.5','P(≥3.50)'],['P>=4.0','P(≥4.00)'],['P>=4.5','P(≥4.50)']]}
 ];
-
-const PROFILE_ALIASES = {
-  character:['character','Character'],
-  performance:['performance','Performance','acting'],
-  directing:['directing','Directing'],
-  juice:['juice','Juice'],
-  moralDilemma:['moralDilemma','moral_dilemma','Moral Dilemma'],
-  dialogue:['dialogue','Dialogue'],
-  originality:['originality','Originality'],
-  creativeStorytelling:['creativeStorytelling','creative_storytelling','Creative Storytelling'],
-  immersion:['immersion','Immersion'],
-  emotionalConsequence:['emotionalConsequence','emotional_consequence','Emotional Consequence'],
-  ideas:['ideas','Ideas']
-};
-
-const ownedByKey = new Map(
-  (window.OWNED || []).map(x => [x.key, x])
-);
-
-function key(t,y){
-  return String(t || '')
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[^a-z0-9]+/g,' ')
-    .trim() + '|' + y;
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function num(v){if(v===null||v===undefined||v==='')return null;const n=Number(v);return Number.isFinite(n)?n:null;}
+function fmt(v){const n=num(v);return n===null?'—':n.toFixed(2);}
+function pct(v){const n=num(v);return n===null?'—':(n*100).toFixed(2)+'%';}
+function normTitle(t){return String(t||'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();}
+function key(t,y){const n=num(y);return normTitle(t)+'|'+(n===null?String(y||''):String(Math.trunc(n)));}
+function moviePE(m){return num(m.predictive?.models?.['Updated XG3 PE']);}
+function movieProb(m,col){return num(m.predictive?.probabilities?.[col]);}
+function valueCell(v){return v===null||v===undefined?'<span class="missing">Not in source</span>':fmt(v);}
+function loadScript(src){return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=()=>reject(new Error('Could not load '+src));document.head.appendChild(s);});}
+function movieCard(m,index){return `<article class="card"><div class="cardTop"><div class="title">${esc(m.title||'Untitled')}</div>${m.year?`<div class="year">${esc(m.year)}</div>`:''}</div><div class="meta">${esc(m.genre||'Film')}${m.director?' · '+esc(m.director):''}</div><button class="detailBtn" onclick="showDetail(${index})"><span>Open prediction profile</span><span class="arrow">↗</span></button></article>`;}
+function modelRows(p){return MODEL_GROUPS.map(g=>`<tr class="modelGroup"><td colspan="2">${esc(g.title)}</td></tr>`+g.fields.map(([col,label])=>{const v=num(p.models[col]);return `<tr><td>${esc(label)}</td><td>${valueCell(v)}</td></tr>`;}).join('')).join('');}
+function probabilityCards(p){return PROB_GROUPS.map(g=>`<div class="sectionLabel">${esc(g.title)}</div><div class="probGrid">${g.fields.map(([col,label])=>{const v=num(p.probabilities[col]);return `<div class="probCard"><div class="probName">${esc(label)}</div><div class="probValue">${fmt(v)}</div><div class="probPct">${v===null?'No stored value':pct(v)}</div></div>`;}).join('')}</div>`).join('');}
+function detailView(m){const p=m.predictive;const pe=moviePE(m);if(!p){return `<button class="backBtn" onclick="closeDetail()">← Back to films</button><section class="detailHero"><div class="eyebrow">Selected film</div><h2>${esc(m.title||'Untitled')}${m.year?` <span class="year">(${esc(m.year)})</span>`:''}</h2><div class="detailSubtitle">${esc(m.genre||'Genre not available')}${m.director?' · '+esc(m.director):''}</div><div class="notice">This title is in the movie catalog, but it has no matching record in the verified 321-film predictive D15 sidecar. No score or probability has been inferred.</div></section>${m.description?`<section class="panel"><h3>Synopsis</h3><div class="meta">${esc(m.description)}</div></section>`:''}`;}
+const dims=D15_FIELDS.map(([col,label])=>{const v=num(p.d15[col]);return `<div class="probCard"><div class="probName">${esc(label)}</div><div class="probValue">${fmt(v)}</div><div class="probPct">${v===null?'Missing in source':`${fmt(v)}/10`}</div><div class="bar"><span style="width:${v===null?0:Math.max(0,Math.min(100,v*10))}%"></span></div></div>`;}).join('');
+const components=['CHALLENGER_conservative_trained_252.json','CHALLENGER_aggressive_unweighted_trained_252.json','CHALLENGER_aggressive_3x_high_rating_weighted_trained_252.json'].map(k=>num(p.models[k]));
+const vals=components.filter(v=>v!==null);const min=vals.length?Math.min(...vals):null,max=vals.length?Math.max(...vals):null,spread=min===null?null:max-min;
+return `<button class="backBtn" onclick="closeDetail()">← Back to films</button><section class="detailHero"><div class="eyebrow">Verified predictive profile · ${esc(p.confidence||'Confidence unavailable')}</div><h2>${esc(m.title||p.title)} <span class="year">(${esc(m.year||p.year)})</span></h2><div class="detailSubtitle">${esc(m.genre||'Genre not available')}${m.director?' · '+esc(m.director):''}</div><div class="peBlock"><div class="peNumber">${fmt(pe)}</div><div class="peLabel">Updated XG3 predicted enjoyment<br>Stored value · rounded for display</div></div><div class="meta">Master position: ${esc(p.position)} · Source: repaired 321-film D15 master · ${esc(p.provenance||'Predictive D15 record')}</div></section>
+<section class="panel"><h3>Stored predictive probabilities</h3>${probabilityCards(p)}<div class="meta">All probabilities above are stored source values. No probability is inferred from PE. The source has P(≥3.5), not P(&lt;3.5), so no complementary value is fabricated.</div></section>
+<section class="panel"><h3>Model comparison</h3><table class="modelTable"><thead><tr><th>Prediction source</th><th>PE</th></tr></thead><tbody>${modelRows(p)}</tbody></table><div class="notice">The three named XG3 challenger predictions and the Updated XG3 PE average are preserved separately. Updated PE Control and Model A/B/C remain separate reference outputs.</div></section>
+<section class="panel"><h3>XG3 component agreement</h3><div class="spreadGrid"><div class="stat"><div class="statLabel">Lowest component</div><div class="statValue">${fmt(min)}</div></div><div class="stat"><div class="statLabel">Highest component</div><div class="statValue">${fmt(max)}</div></div><div class="stat"><div class="statLabel">Component range</div><div class="statValue">${fmt(spread)}</div></div></div><div class="meta">Range is the difference between the three stored XG3 component values. It is descriptive disagreement, not a calibrated uncertainty probability.</div></section>
+<section class="panel"><h3>D15 profile · all 15 dimensions</h3><div class="probGrid">${dims}</div></section>
+${m.stars?`<section class="panel"><h3>Cast</h3><div class="meta">${esc(m.stars)}</div></section>`:''}${m.description?`<section class="panel"><h3>Synopsis / notes</h3><div class="meta">${esc(m.description)}</div></section>`:''}`;}
+window.showDetail=index=>{detailMovie=movies[index]||null;if(!detailMovie)return;list.innerHTML=detailView(detailMovie);status.textContent='';sortBox.innerHTML='';window.scrollTo({top:0,behavior:'smooth'});};
+window.closeDetail=()=>{detailMovie=null;render();};
+function renderSort(){if(currentMode!=='hunt'){sortBox.innerHTML='';return;}sortBox.innerHTML=`<button class="${currentSort==='p5'?'active':''}" onclick="setSort('p5')">XG3 P(5★)</button><button class="${currentSort==='p45'?'active':''}" onclick="setSort('p45')">XG3 P(≥4.5★)</button><button class="${currentSort==='pred'?'active':''}" onclick="setSort('pred')">XG3 PE</button>`;}
+window.setSort=sort=>{currentSort=sort;render();};
+function huntMode(){currentMode='hunt';detailMovie=null;huntBtn.classList.add('active');searchTab.classList.remove('active');q.value='';clearBtn.style.display='none';render();}
+function searchMode(){currentMode='search';detailMovie=null;searchTab.classList.add('active');huntBtn.classList.remove('active');render();q.focus();}
+function render(){if(detailMovie){list.innerHTML=detailView(detailMovie);status.textContent='';sortBox.innerHTML='';return;}renderSort();if(currentMode==='search'){renderSearch();return;}const eligible=movies.filter(m=>{const o=ownedByKey.get(key(m.title,m.year));return o&&Number(o.rated)===0&&m.predictive&&moviePE(m)!==null;});eligible.sort((a,b)=>{if(currentSort==='pred')return (moviePE(b)??-999)-(moviePE(a)??-999);const col=currentSort==='p45'?'XG3 P>=4.5':'XG3 P5';return (movieProb(b,col)??-1)-(movieProb(a,col)??-1);});const top=eligible.slice(0,8);status.textContent=`${eligible.length.toLocaleString()} owned · unwatched films with verified XG3 data · showing ${top.length}`;if(!top.length){list.innerHTML='<div class="empty">No owned unwatched films with matching predictive profiles were found. Search Library still lets you open titles and inspect available metadata.</div>';return;}list.innerHTML='<div class="sectionLabel">The shortlist</div><div class="grid">'+top.map(m=>movieCard(m,movies.indexOf(m))).join('')+'</div>';}
+function renderSearch(){const s=q.value.trim().toLowerCase();clearBtn.style.display=s?'block':'none';if(!s){status.textContent='';list.innerHTML='<div class="empty">Search the movie catalog by title. Scores and probabilities stay hidden until you open a film.</div>';return;}const hits=movies.filter(m=>String(m.title||'').toLowerCase().includes(s)).slice(0,40);status.textContent=hits.length?`${hits.length} result${hits.length===1?'':'s'} · open a title for its full profile`:'No results';list.innerHTML=hits.length?'<div class="grid">'+hits.map(m=>movieCard(m,movies.indexOf(m))).join('')+'</div>':'<div class="empty">No matching film in the current catalog.</div>';}
+huntBtn.addEventListener('click',huntMode);searchTab.addEventListener('click',searchMode);q.addEventListener('input',()=>{if(currentMode==='search')renderSearch();});q.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();if(currentMode!=='search')searchMode();else renderSearch();}});clearBtn.addEventListener('click',()=>{q.value='';renderSearch();q.focus();});
+function attachPredictiveProfiles(){
+ const byTitle=new Map(),byKey=new Map();for(const m of movies){const t=normTitle(m.title),k=key(m.title,m.year);if(!byTitle.has(t))byTitle.set(t,[]);byTitle.get(t).push(m);if(!byKey.has(k))byKey.set(k,[]);byKey.get(k).push(m);}
+ let resolved=0,yearRecovered=0,synthetic=0;
+ for(const p of (sidecarMeta.films||[])){
+  const exact=byKey.get(p.key)||[];
+  if(exact.length){for(const m of exact)m.predictive=p;resolved++;continue;}
+  const sameTitle=byTitle.get(normTitle(p.title))||[];
+  const unknownYear=sameTitle.filter(m=>m.year===null||m.year===undefined||m.year==='');
+  const knownYear=sameTitle.filter(m=>m.year!==null&&m.year!==undefined&&m.year!=='');
+  if(unknownYear.length===1&&knownYear.length===0){unknownYear[0].year=String(p.year);unknownYear[0].predictive=p;const oldKey=key(p.title,'');if(byKey.has(oldKey))byKey.set(oldKey,byKey.get(oldKey).filter(m=>m!==unknownYear[0]));if(!byKey.has(p.key))byKey.set(p.key,[]);byKey.get(p.key).push(unknownYear[0]);resolved++;yearRecovered++;continue;}
+  const syntheticMovie={id:'sidecar:'+p.key,title:p.title,year:String(p.year),genre:'Predictive D15 profile',description:'This title was included directly from the verified 321-film predictive D15 master because an exact title/year record was not available in the catalog.',predictive:p,isSyntheticPredictive:true};
+  movies.push(syntheticMovie);if(!byTitle.has(normTitle(p.title)))byTitle.set(normTitle(p.title),[]);byTitle.get(normTitle(p.title)).push(syntheticMovie);if(!byKey.has(p.key))byKey.set(p.key,[]);byKey.get(p.key).push(syntheticMovie);resolved++;synthetic++;
+ }
+ return {resolved,yearRecovered,synthetic};
 }
-
-function esc(s){
-  return String(s ?? '').replace(
-    /[&<>"']/g,
-    c => ({
-      '&':'&amp;',
-      '<':'&lt;',
-      '>':'&gt;',
-      '"':'&quot;',
-      "'":'&#39;'
-    }[c])
-  );
-}
-
-function probability(v){
-  if(v === null || v === undefined || v === '')
-    return null;
-
-  let n = Number(
-    String(v)
-      .replace('%','')
-      .trim()
-  );
-
-  if(!Number.isFinite(n))
-    return null;
-
-  if(n > 1)
-    n = n / 100;
-
-  return Math.max(0,Math.min(1,n));
-}
-
-function pct(v){
-  const p = probability(v);
-
-  if(p === null)
-    return '—';
-
-  return (p * 100).toFixed(1) + '%';
-}
-
-function p45(m){
-  const direct =
-    m.p45 ??
-    m.p4_5 ??
-    m.p45plus ??
-    m.p45prob;
-
-  const d = probability(direct);
-
-  if(d !== null)
-    return d;
-
-  const pred = Number(m.pred);
-
-  if(!Number.isFinite(pred))
-    return null;
-
-  const p5 = probability(m.p5);
-
-  const normalized =
-    Math.max(
-      0,
-      Math.min(
-        1,
-        (pred - 3.5) / 1.5
-      )
-    );
-
-  if(p5 !== null){
-    return Math.max(
-      p5,
-      Math.min(
-        0.98,
-        normalized * 0.82 + p5 * 0.18
-      )
-    );
-  }
-
-  return normalized * 0.82;
-}
-
-function profileValue(m,field){
-  for(const k of PROFILE_ALIASES[field] || [field]){
-    if(m[k] !== undefined && m[k] !== null && m[k] !== '')
-      return Number(m[k]);
-  }
-
-  if(m.profile){
-    for(const k of PROFILE_ALIASES[field] || [field]){
-      if(m.profile[k] !== undefined && m.profile[k] !== null && m.profile[k] !== '')
-        return Number(m.profile[k]);
-    }
-  }
-
-  return null;
-}
-
-function buildTypeTags(m){
-  const tags = [];
-
-  const rules = [
-    ['character','Character-rich'],
-    ['performance','Performance-driven'],
-    ['directing','Director-forward'],
-    ['juice','High-energy'],
-    ['moralDilemma','Morally complex'],
-    ['dialogue','Dialogue-heavy'],
-    ['originality','Distinctive'],
-    ['creativeStorytelling','Formally inventive'],
-    ['immersion','Highly immersive'],
-    ['emotionalConsequence','Emotionally consequential'],
-    ['ideas','Idea-rich']
-  ];
-
-  for(const [field,label] of rules){
-    const v = profileValue(m,field);
-
-    if(v !== null && Number.isFinite(v) && v >= 8.5)
-      tags.push(label);
-  }
-
-  return tags;
-}
-
-function probBar(label,value){
-  const p = probability(value);
-
-  if(p === null)
-    return '';
-
-  return `
-    <div class="probRow">
-      <div class="probLabel">
-        <span>${esc(label)}</span>
-        <span>${pct(p)}</span>
-      </div>
-      <div class="probTrack">
-        <div class="probFill" style="width:${Math.round(p*100)}%"></div>
-      </div>
-    </div>
-  `;
-}
-
-function movieCard(m,index){
-  const pred = Number(m.pred);
-  const p5 = probability(m.p5);
-  const p45v = p45(m);
-  const tags = buildTypeTags(m);
-
-  return `
-    <div class="card">
-      <div class="title">
-        ${esc(m.title)}
-        ${m.year ? `<span class="meta">(${esc(m.year)})</span>` : ''}
-      </div>
-
-      ${
-        Number.isFinite(pred)
-          ? `<div class="rating">${pred.toFixed(1)}★</div>`
-          : `<div class="rating">—</div>`
-      }
-
-      ${probBar('5★ probability',p5)}
-      ${probBar('4½★+ probability',p45v)}
-
-      <div class="meta">
-        ${esc(m.genre || '')}
-        ${m.director ? ' · ' + esc(m.director) : ''}
-      </div>
-
-      ${
-        tags.length
-          ? `<div class="dna">${tags.map(x=>`<span class="dnaTag">${esc(x)}</span>`).join('')}</div>`
-          : ''
-      }
-
-      <div class="detail">
-        <button class="detailBtn" onclick="showDetail(${index})">
-          View Film DNA
-        </button>
-      </div>
-    </div>
-  `;
-}
-
-function detailView(m){
-  const p5 = probability(m.p5);
-  const p45v = p45(m);
-
-  const fields = PROFILE_FIELDS.map(([field,label]) => {
-    const v = profileValue(m,field);
-
-    if(v === null || !Number.isFinite(v))
-      return '';
-
-    return `
-      <div class="dnaItem">
-        <div class="dnaHead">
-          <span>${esc(label)}</span>
-          <span class="dnaValue">${v.toFixed(1)}/10</span>
-        </div>
-        <div class="probTrack">
-          <div class="probFill" style="width:${Math.max(0,Math.min(100,v*10))}%"></div>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  return `
-    <button class="backBtn" onclick="closeDetail()">← Back</button>
-
-    <div class="card">
-      <div class="title">
-        ${esc(m.title)}
-        ${m.year ? `<span class="meta">(${esc(m.year)})</span>` : ''}
-      </div>
-
-      ${
-        Number.isFinite(Number(m.pred))
-          ? `<div class="rating">${Number(m.pred).toFixed(1)}★</div>`
-          : ''
-      }
-
-      <div class="meta">
-        ${m.genre ? esc(m.genre) : ''}
-        ${m.director ? ' · ' + esc(m.director) : ''}
-      </div>
-
-      ${
-        m.stars
-          ? `<div class="meta">${esc(m.stars)}</div>`
-          : ''
-      }
-
-      ${
-        m.runtime
-          ? `<div class="meta">${esc(m.runtime)}</div>`
-          : ''
-      }
-
-      ${probBar('5★ probability',p5)}
-      ${probBar('4½★+ probability',p45v)}
-
-      ${
-        m.description
-          ? `<div class="detail"><div class="meta">${esc(m.description)}</div></div>`
-          : ''
-      }
-
-      <div class="detail">
-        <div class="title" style="font-size:16px">Film DNA</div>
-        <div class="dnaGrid">${fields || '<div class="empty">Film DNA not available for this film.</div>'}</div>
-      </div>
-    </div>
-  `;
-}
-
-window.showDetail = function(index){
-  detailMovie = movies[index] || null;
-
-  if(!detailMovie)
-    return;
-
-  list.innerHTML = detailView(detailMovie);
-  status.textContent = '';
-  sortBox.innerHTML = '';
-};
-
-window.closeDetail = function(){
-  detailMovie = null;
-  render();
-};
-
-function renderSort(){
-  if(currentMode !== 'hunt'){
-    sortBox.innerHTML = '';
-    return;
-  }
-
-  sortBox.innerHTML = `
-    <button class="${currentSort==='p5'?'active':''}" onclick="setSort('p5')">5★ Probability</button>
-    <button class="${currentSort==='p45'?'active':''}" onclick="setSort('p45')">4½★+ Probability</button>
-    <button class="${currentSort==='pred'?'active':''}" onclick="setSort('pred')">Predicted Rating</button>
-  `;
-}
-
-window.setSort = function(sort){
-  currentSort = sort;
-  render();
-};
-
-function hunt(){
-  currentMode = 'hunt';
-  detailMovie = null;
-
-  huntBtn.classList.add('active');
-  searchTab.classList.remove('active');
-
-  q.value = '';
-  clearBtn.style.display = 'none';
-
-  render();
-}
-
-function searchMode(){
-  currentMode = 'search';
-  detailMovie = null;
-
-  searchTab.classList.add('active');
-  huntBtn.classList.remove('active');
-
-  render();
-  q.focus();
-}
-
-function render(){
-  if(detailMovie){
-    list.innerHTML = detailView(detailMovie);
-    status.textContent = '';
-    sortBox.innerHTML = '';
-    return;
-  }
-
-  renderSort();
-
-  if(currentMode === 'search'){
-    renderSearch();
-    return;
-  }
-
-  const hunt = movies.filter(m => {
-    const o = ownedByKey.get(key(m.title,m.year));
-
-    return (
-      o &&
-      Number(o.rated) === 0 &&
-      m.pred != null
-    );
-  });
-
-  hunt.sort((a,b) => {
-    if(currentSort === 'p45')
-      return (p45(b) ?? -1) - (p45(a) ?? -1);
-
-    if(currentSort === 'pred')
-      return Number(b.pred ?? -999) - Number(a.pred ?? -999);
-
-    return (probability(b.p5) ?? -1) - (probability(a.p5) ?? -1);
-  });
-
-  const top = hunt.slice(0,5);
-
-  status.textContent =
-    `${hunt.length} owned · unwatched · showing top ${top.length}`;
-
-  if(!top.length){
-    list.innerHTML =
-      '<div class="empty">No owned unwatched films with predictions found.</div>';
-    return;
-  }
-
-  list.innerHTML = top.map(m => {
-    const index = movies.indexOf(m);
-    return movieCard(m,index);
-  }).join('');
-}
-
-function renderSearch(){
-  const s = q.value.trim().toLowerCase();
-
-  clearBtn.style.display = s ? 'block' : 'none';
-
-  if(!s){
-    status.textContent = '';
-    list.innerHTML =
-      '<div class="empty">Search by film title.</div>';
-    return;
-  }
-
-  const hits = movies
-    .filter(m =>
-      String(m.title || '')
-        .toLowerCase()
-        .includes(s)
-    )
-    .slice(0,40);
-
-  status.textContent =
-    hits.length
-      ? `${hits.length} result${hits.length===1?'':'s'}`
-      : 'No results';
-
-  list.innerHTML = hits.length
-    ? hits.map(m => movieCard(m,movies.indexOf(m))).join('')
-    : '<div class="empty">No matching movie in the current library.</div>';
-}
-
-huntBtn.addEventListener('click',hunt);
-searchTab.addEventListener('click',searchMode);
-
-q.addEventListener('input',() => {
-  if(currentMode === 'search')
-    renderSearch();
-});
-
-q.addEventListener('keydown',e => {
-  if(e.key === 'Enter'){
-    e.preventDefault();
-
-    if(currentMode !== 'search')
-      searchMode();
-    else
-      renderSearch();
-  }
-});
-
-clearBtn.addEventListener('click',() => {
-  q.value = '';
-  renderSearch();
-  q.focus();
-});
-
-async function loadScript(src){
-  return new Promise((resolve,reject) => {
-    const s = document.createElement('script');
-
-    s.src = src;
-    s.onload = resolve;
-    s.onerror = () =>
-      reject(new Error('Could not load ' + src));
-
-    document.head.appendChild(s);
-  });
-}
-
-async function boot(){
-
-  status.textContent = 'Loading movie library…';
-
-  try{
-
-    for(const file of files){
-      await loadScript(file);
-    }
-
-    movies = (window.MOVIE_CHUNKS || [])
-      .flat()
-      .filter(Boolean);
-
-    status.textContent =
-      `${movies.length.toLocaleString()} movies loaded`;
-
-    render();
-
-  }catch(err){
-
-    console.error(err);
-
-    status.textContent = 'Error loading movie library.';
-
-    list.innerHTML = `
-      <div class="empty">
-        Could not load the movie data files.
-        Make sure movies-00.js through movies-12.js
-        are in the same folder as index.html.
-      </div>
-    `;
-  }
-}
-
+async function boot(){status.textContent='Loading movie library and verified predictions…';try{await loadScript('owned.js');ownedByKey=new Map((window.OWNED||[]).map(x=>[x.key,x]));for(const file of CATALOG_FILES)await loadScript(file);movies=(window.MOVIE_CHUNKS||[]).flat().filter(Boolean);const catalogCount=movies.length;const response=await fetch('xg3-d15-sidecar.json',{cache:'no-store'});if(!response.ok)throw new Error('Sidecar HTTP '+response.status);sidecarMeta=await response.json();predictiveByKey=new Map((sidecarMeta.films||[]).map(p=>[p.key,p]));const stats=attachPredictiveProfiles();window.__MOVIE_ENGINE_TEST__={ready:true,catalogCount,finalMovieCount:movies.length,sidecarCount:sidecarMeta.recordCount,...stats};status.textContent=`${catalogCount.toLocaleString()} catalog movies · ${stats.resolved}/${sidecarMeta.recordCount} predictive profiles connected`;if(stats.synthetic||stats.yearRecovered)console.info('Predictive profile connection:',stats);render();}catch(err){console.error(err);window.__MOVIE_ENGINE_TEST__={ready:false,error:String(err)};status.textContent='Movie library or predictive sidecar did not load';list.innerHTML='<div class="empty"><strong>Build could not finish loading.</strong><br>Check that index.html, owned.js, movies-00.js through movies-11.js, and xg3-d15-sidecar.json are in the same directory. No deployment was performed.</div>';}}
 boot();
-
-</script>
-</body>
-</html>
+</script></body></html>
